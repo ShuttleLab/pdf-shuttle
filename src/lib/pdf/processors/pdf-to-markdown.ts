@@ -15,9 +15,11 @@ import { PDFErrorCode } from '@/types/pdf';
 import { BasePDFProcessor } from '../processor';
 import { withBasePath } from '@/lib/utils/path';
 
-// Initialize PDF.js worker
+// Initialize PDF.js worker.
+// pdfjs-dist v4+ ships the worker as native ES module (.mjs); the .js form
+// required an upstream PDFCraft build step we no longer run.
 if (typeof window !== 'undefined') {
-    PDFJS.GlobalWorkerOptions.workerSrc = withBasePath('/workers/pdf.worker.min.js');
+    PDFJS.GlobalWorkerOptions.workerSrc = withBasePath('/workers/pdf.worker.min.mjs');
 }
 
 /**
