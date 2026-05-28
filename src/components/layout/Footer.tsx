@@ -2,44 +2,53 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { useRouter, usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { Shield, Lock, FileCheck, Github, Twitter, Mail, Globe } from 'lucide-react';
-import { type Locale, locales, localeConfig, getLocalizedPath } from '@/lib/i18n/config';
-import { saveLanguagePreference } from './LanguageSelector';
+import { Shield, Lock, Github, Mail } from 'lucide-react';
+import { type Locale } from '@/lib/i18n/config';
 
 export interface FooterProps {
   locale: Locale;
 }
 
+// Sibling ShuttleLab products for cross-promotion (P1: handbook §13 convention).
+// Descriptions are English-only — they're brand-adjacent content where keeping
+// English is internationally acceptable. Can be moved to messages/*.json later
+// if per-locale taglines are desired.
+const SHUTTLELAB_PRODUCTS: Array<{
+  href: string;
+  emoji: string;
+  name: string;
+  desc: string;
+}> = [
+  { href: 'https://shuttlelab.org', emoji: '🚀', name: 'ShuttleLab Hub', desc: 'All free tools' },
+  { href: 'https://note.shuttlelab.org', emoji: '📝', name: 'Note Shuttle', desc: 'Encrypted markdown notes' },
+  { href: 'https://status.shuttlelab.org', emoji: '📊', name: 'Status Shuttle', desc: 'Uptime monitoring & alerts' },
+  { href: 'https://json.shuttlelab.org', emoji: '✓', name: 'JSON Shuttle', desc: 'JSON validator & formatter' },
+  { href: 'https://yaml.shuttlelab.org', emoji: '⚙️', name: 'YAML Shuttle', desc: 'YAML formatter & converter' },
+];
+
 export const Footer: React.FC<FooterProps> = ({ locale }) => {
   const t = useTranslations('common');
   const currentYear = new Date().getFullYear();
-  const router = useRouter();
-  const pathname = usePathname();
 
-  const footerLinks = [
+  const resourceLinks = [
     { href: `/${locale}/about`, label: t('navigation.about') },
     { href: `/${locale}/faq`, label: t('navigation.faq') },
     { href: `/${locale}/privacy`, label: t('navigation.privacy') },
+    { href: `/${locale}/terms`, label: t('navigation.terms') || 'Terms' },
     { href: `/${locale}/contact`, label: t('navigation.contact') },
   ];
 
-  const handleLanguageChange = (newLocale: Locale) => {
-    saveLanguagePreference(newLocale);
-    const newPath = getLocalizedPath(pathname, newLocale);
-    router.push(newPath);
-  };
-
   return (
     <footer
-      className="w-full border-t border-[hsl(var(--color-border))] bg-[hsl(var(--color-background))] pt-16 pb-8"
+      className="w-full border-t border-[hsl(var(--color-border))] bg-[hsl(var(--color-background))] pt-12 pb-8"
       role="contentinfo"
     >
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-          {/* Brand Column */}
-          <div className="col-span-1 md:col-span-1 flex flex-col gap-6">
+        {/* 3-column grid: Brand+trust | Resources | Other ShuttleLab tools */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12 mb-10">
+          {/* Column 1: Brand + tagline + trust + social */}
+          <div className="flex flex-col gap-5">
             <Link
               href={`/${locale}`}
               className="group flex items-center gap-2.5 text-xl font-bold text-[hsl(var(--color-foreground))]"
@@ -61,33 +70,55 @@ export const Footer: React.FC<FooterProps> = ({ locale }) => {
               </div>
               <span data-testid="footer-brand-name">{t('brand')}</span>
             </Link>
+
             <p className="text-sm text-[hsl(var(--color-muted-foreground))] leading-relaxed max-w-xs">
               {t('tagline') || 'Professional, secure, and free PDF tools for everyone. No installation required.'}
             </p>
 
-            <div className="flex gap-4">
-              <a href="https://github.com/ShuttleLab" className="p-2 rounded-full bg-[hsl(var(--color-muted))] text-[hsl(var(--color-muted-foreground))] hover:bg-[hsl(var(--color-primary))] hover:text-white transition-all">
+            {/* Compact trust badges (inline, no separate columns) */}
+            <ul className="flex flex-col gap-2 text-xs text-[hsl(var(--color-muted-foreground))]">
+              <li className="flex items-center gap-2">
+                <Lock className="h-3.5 w-3.5 text-[hsl(var(--color-success))] flex-shrink-0" aria-hidden="true" />
+                <span>Client-side processing · files never uploaded</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <Shield className="h-3.5 w-3.5 text-[hsl(var(--color-success))] flex-shrink-0" aria-hidden="true" />
+                <span>GDPR compliant · 100% private</span>
+              </li>
+            </ul>
+
+            <div className="flex gap-2">
+              <a
+                href="https://github.com/ShuttleLab/pdf-shuttle"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-full bg-[hsl(var(--color-muted))] text-[hsl(var(--color-muted-foreground))] hover:bg-[hsl(var(--color-primary))] hover:text-white transition-all"
+                aria-label="GitHub repository"
+              >
                 <Github className="w-4 h-4" />
               </a>
-              <a href="mailto:support@shuttlelab.org" className="p-2 rounded-full bg-[hsl(var(--color-muted))] text-[hsl(var(--color-muted-foreground))] hover:bg-[hsl(var(--color-primary))] hover:text-white transition-all">
+              <a
+                href="mailto:support@shuttlelab.org"
+                className="p-2 rounded-full bg-[hsl(var(--color-muted))] text-[hsl(var(--color-muted-foreground))] hover:bg-[hsl(var(--color-primary))] hover:text-white transition-all"
+                aria-label="Email support"
+              >
                 <Mail className="w-4 h-4" />
               </a>
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Column 2: Resources */}
           <div>
-            <h3 className="text-sm font-bold uppercase tracking-wider text-[hsl(var(--color-foreground))] mb-6">
-              Resources
+            <h3 className="text-sm font-bold uppercase tracking-wider text-[hsl(var(--color-foreground))] mb-5">
+              {t('footer.resources') || 'Resources'}
             </h3>
             <ul className="flex flex-col gap-3">
-              {footerLinks.map((link) => (
+              {resourceLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-primary))] transition-colors flex items-center gap-2 group"
+                    className="text-sm text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-primary))] transition-colors"
                   >
-                    <span className="w-1 h-1 rounded-full bg-[hsl(var(--color-muted-foreground))] group-hover:bg-[hsl(var(--color-primary))] transition-colors" />
                     {link.label}
                   </Link>
                 </li>
@@ -95,99 +126,87 @@ export const Footer: React.FC<FooterProps> = ({ locale }) => {
             </ul>
           </div>
 
-          {/* Security Features */}
+          {/* Column 3: Other ShuttleLab Tools (cross-promotion) */}
           <div>
-            <h3 className="text-sm font-bold uppercase tracking-wider text-[hsl(var(--color-foreground))] mb-6">
-              Security
+            <h3 className="text-sm font-bold uppercase tracking-wider text-[hsl(var(--color-foreground))] mb-5">
+              {t('footer.otherTools') || 'Other ShuttleLab Tools'}
             </h3>
-            <ul className="flex flex-col gap-4">
-              <li className="flex items-start gap-3">
-                <div className="mt-0.5 p-1 rounded bg-[hsl(var(--color-success)/0.1)] text-[hsl(var(--color-success))]">
-                  <Lock className="h-3 w-3" />
-                </div>
-                <div>
-                  <span className="block text-sm font-medium text-[hsl(var(--color-foreground))]">Client-side processing</span>
-                  <span className="text-xs text-[hsl(var(--color-muted-foreground))]">Files never leave your device</span>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <div className="mt-0.5 p-1 rounded bg-[hsl(var(--color-primary)/0.1)] text-[hsl(var(--color-primary))]">
-                  <FileCheck className="h-3 w-3" />
-                </div>
-                <div>
-                  <span className="block text-sm font-medium text-[hsl(var(--color-foreground))]">No file uploads</span>
-                  <span className="text-xs text-[hsl(var(--color-muted-foreground))]">100% private & secure</span>
-                </div>
-              </li>
+            <ul className="flex flex-col gap-3">
+              {SHUTTLELAB_PRODUCTS.map((product) => (
+                <li key={product.href}>
+                  <a
+                    href={product.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-start gap-2 text-sm text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-foreground))] transition-colors"
+                  >
+                    <span className="text-base leading-none" aria-hidden="true">{product.emoji}</span>
+                    <span className="flex flex-col gap-0.5">
+                      <span className="font-medium group-hover:text-[hsl(var(--color-primary))] transition-colors">
+                        {product.name}
+                      </span>
+                      <span className="text-xs text-[hsl(var(--color-muted-foreground))/0.8]">
+                        {product.desc}
+                      </span>
+                    </span>
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
-
-          {/* Privacy Badge Block */}
-          <div className="flex flex-col justify-start">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-[hsl(var(--color-foreground))] mb-6">
-              Compliance
-            </h3>
-            <div
-              className="flex items-center gap-3 p-4 bg-[hsl(var(--color-card))] border border-[hsl(var(--color-border))] rounded-xl shadow-sm"
-            >
-              <div className="h-10 w-10 rounded-full bg-[hsl(var(--color-success)/0.1)] flex items-center justify-center flex-shrink-0">
-                <Shield className="h-5 w-5 text-[hsl(var(--color-success))]" aria-hidden="true" />
-              </div>
-              <div>
-                <div className="text-sm font-bold text-[hsl(var(--color-foreground))]">GDPR Compliant</div>
-                <div className="text-xs text-[hsl(var(--color-muted-foreground))]">{t('footer.privacyBadge')}</div>
-              </div>
-            </div>
-          </div>
         </div>
 
-        {/* Language Switcher */}
-        <div className="py-6 border-t border-[hsl(var(--color-border))]">
-          <div className="flex items-center gap-3 mb-4">
-            <Globe className="h-4 w-4 text-[hsl(var(--color-muted-foreground))]" />
-            <span className="text-sm font-medium text-[hsl(var(--color-foreground))]">
-              {t('buttons.selectLanguage')}
-            </span>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {locales.map((loc) => {
-              const config = localeConfig[loc];
-              const isActive = loc === locale;
-              return (
-                <button
-                  key={loc}
-                  onClick={() => handleLanguageChange(loc)}
-                  className={`
-                    px-3 py-1.5 text-sm rounded-full transition-all
-                    ${isActive
-                      ? 'bg-[hsl(var(--color-primary))] text-white font-medium'
-                      : 'bg-[hsl(var(--color-muted))] text-[hsl(var(--color-muted-foreground))] hover:bg-[hsl(var(--color-primary)/0.1)] hover:text-[hsl(var(--color-primary))]'
-                    }
-                  `}
-                  aria-current={isActive ? 'true' : undefined}
-                >
-                  {config.nativeName}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Copyright */}
-        <div className="pt-8 border-t border-[hsl(var(--color-border))] flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex flex-col gap-1">
+        {/* Copyright + source code attribution (AGPL §13 compliance) */}
+        <div className="pt-8 border-t border-[hsl(var(--color-border))] flex flex-col md:flex-row items-center justify-between gap-3">
+          <div className="flex flex-col gap-1 text-center md:text-left">
             <p className="text-sm text-[hsl(var(--color-muted-foreground))]">
               &copy; {currentYear} ShuttleLab. All rights reserved.
             </p>
             <p className="text-xs text-[hsl(var(--color-muted-foreground))/0.7]">
-              <a href="https://github.com/ShuttleLab/pdf-shuttle" target="_blank" rel="noopener noreferrer" className="underline hover:text-[hsl(var(--color-foreground))]">Source code</a> (AGPL-3.0) · Based on <a href="https://github.com/PDFCraftTool/pdfcraft" target="_blank" rel="noopener noreferrer" className="underline hover:text-[hsl(var(--color-foreground))]">PDFCraft</a>
+              <a
+                href="https://github.com/ShuttleLab/pdf-shuttle"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-[hsl(var(--color-foreground))]"
+              >
+                Source code
+              </a>{' '}
+              (AGPL-3.0) · Based on{' '}
+              <a
+                href="https://github.com/PDFCraftTool/pdfcraft"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-[hsl(var(--color-foreground))]"
+              >
+                PDFCraft
+              </a>
             </p>
           </div>
-          <div className="flex items-center gap-6">
-            <Link href={`/${locale}/about`} className="text-xs text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-foreground))]">About</Link>
-            <Link href={`/${locale}/privacy`} className="text-xs text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-foreground))]">Privacy</Link>
-            <Link href={`/${locale}/terms`} className="text-xs text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-foreground))]">Terms</Link>
-            <a href="mailto:support@shuttlelab.org" className="text-xs text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-foreground))]">Contact</a>
+          <div className="flex items-center gap-5 text-xs">
+            <Link
+              href={`/${locale}/about`}
+              className="text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-foreground))]"
+            >
+              About
+            </Link>
+            <Link
+              href={`/${locale}/privacy`}
+              className="text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-foreground))]"
+            >
+              Privacy
+            </Link>
+            <Link
+              href={`/${locale}/terms`}
+              className="text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-foreground))]"
+            >
+              Terms
+            </Link>
+            <a
+              href="mailto:support@shuttlelab.org"
+              className="text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-foreground))]"
+            >
+              Contact
+            </a>
           </div>
         </div>
       </div>
@@ -196,4 +215,3 @@ export const Footer: React.FC<FooterProps> = ({ locale }) => {
 };
 
 export default Footer;
-

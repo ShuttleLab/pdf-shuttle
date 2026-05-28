@@ -12,6 +12,7 @@ import { searchTools, SearchResult } from '@/lib/utils/search';
 import { getToolContent } from '@/config/tool-content';
 import { getAllTools } from '@/config/tools';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
+import { LanguageSelector } from './LanguageSelector';
 
 export interface HeaderProps {
   locale: Locale;
@@ -172,15 +173,15 @@ export const Header: React.FC<HeaderProps> = ({ locale, showSearch = true }) => 
       role="banner"
     >
       <div className="container mx-auto px-4">
-        <div className="flex h-20 items-center justify-between">
+        <div className="flex h-16 items-center justify-between">
           {/* Logo and Brand */}
           <div className="flex flex-1 items-center gap-2">
             <Link
               href={`/${locale}`}
-              className="group flex items-center gap-2.5 text-xl font-bold text-[hsl(var(--color-foreground))] hover:opacity-90 transition-opacity"
+              className="group flex items-center gap-2.5 text-lg sm:text-xl font-bold text-[hsl(var(--color-foreground))] hover:opacity-90 transition-opacity"
               aria-label={`${t('brand')} - ${t('navigation.home')}`}
             >
-              <div className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[hsl(var(--color-primary))] to-[hsl(var(--color-accent))] shadow-lg shadow-primary/25 transition-transform group-hover:scale-105">
+              <div className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-[hsl(var(--color-primary))] to-[hsl(var(--color-accent))] shadow-md transition-transform group-hover:scale-105">
                 <svg
                   className="h-5 w-5 text-white"
                   viewBox="0 0 24 24"
@@ -200,9 +201,9 @@ export const Header: React.FC<HeaderProps> = ({ locale, showSearch = true }) => 
             </Link>
           </div>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation — flat style matching note-shuttle */}
           <nav
-            className={`hidden md:flex items-center gap-1 rounded-full border border-[hsl(var(--color-border))/0.4] bg-[hsl(var(--color-background))/0.5] p-1.5 backdrop-blur-sm shadow-sm transition-all duration-300 ${isSearchOpen ? 'opacity-0 translate-y-[-10px] pointer-events-none' : 'opacity-100 translate-y-0'
+            className={`hidden md:flex items-center gap-1 transition-all duration-300 ${isSearchOpen ? 'opacity-0 translate-y-[-10px] pointer-events-none' : 'opacity-100 translate-y-0'
               }`}
             role="navigation"
             aria-label="Main navigation"
@@ -211,7 +212,7 @@ export const Header: React.FC<HeaderProps> = ({ locale, showSearch = true }) => 
               <Link
                 key={item.href}
                 href={item.href}
-                className="px-4 py-1.5 text-sm font-medium text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-foreground))] hover:bg-[hsl(var(--color-muted))/0.5] rounded-full transition-all"
+                className="px-3 py-1.5 text-sm font-medium text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-foreground))] transition-colors"
               >
                 {item.label}
               </Link>
@@ -330,8 +331,8 @@ export const Header: React.FC<HeaderProps> = ({ locale, showSearch = true }) => 
             {/* Theme Toggle */}
             <ThemeToggle />
 
-            {/* Language Selector placeholder */}
-            <div id="language-selector-slot" />
+            {/* Language Selector */}
+            <LanguageSelector currentLocale={locale} />
 
             {/* Mobile Menu Toggle */}
             <Button
