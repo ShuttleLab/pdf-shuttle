@@ -185,8 +185,13 @@ export async function executeNode(
                 const mode = String(settings.splitMode || 'every');
                 const pagesPerSplit = Number(settings.pagesPerSplit) || 1;
 
-                // Calculate ranges based on mode
+                // Calculate ranges based on mode.
+                // Bare `import('pdfjs-dist')` would skip the worker bootstrap
+                // we centralized in loader.ts (the missing call caused the
+                // production "No GlobalWorkerOptions.workerSrc specified" error).
                 const pdfjs = await import('pdfjs-dist');
+                const { configurePdfjsWorker } = await import('@/lib/pdf/loader');
+                configurePdfjsWorker(pdfjs);
                 const arrayBuffer = await files[0].arrayBuffer();
                 const pdf = await pdfjs.getDocument({ data: arrayBuffer }).promise;
                 const totalPages = pdf.numPages;
