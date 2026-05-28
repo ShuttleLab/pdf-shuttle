@@ -51,38 +51,12 @@ export function StampsTool({ className = '' }: StampsToolProps) {
     setTimeout(() => setStampState(prev => ({ ...prev, viewerReady: true })), 1500);
   }, []);
 
-  const handleSave = useCallback(async () => {
-    if (!stampState.viewerReady || !iframeRef.current) {
-      setError(tTools('viewerNotReady') || 'Viewer not ready.');
-      return;
-    }
-    try {
-      setIsProcessing(true);
-      const win = iframeRef.current.contentWindow as any;
-      const app = win?.PDFViewerApplication;
-      
-      if (app?.pdfDocument) {
-        // Use PDF.js native save with annotations
-        const data = await app.pdfDocument.saveDocument();
-        const blob = new Blob([data], { type: 'application/pdf' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `stamped_${stampState.file?.name || 'document.pdf'}`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-      } else {
-        setError(tTools('saveFailed') || 'PDF not loaded.');
-      }
-      setIsProcessing(false);
-    } catch (err) {
-      console.error('Save failed:', err);
-      setError(tTools('saveFailed') || 'Failed to save.');
-      setIsProcessing(false);
-    }
-  }, [stampState.viewerReady, stampState.file, tTools]);
+  // Note: we intentionally do NOT provide our own "Save" button. The annotation
+  // viewer's built-in Export button (in its toolbar) is the only path that
+  // includes the stamps — they live in the extension's own Konva-based store
+  // (painter.getData()), NOT in PDF.js's annotationStorage, so
+  // pdfDocument.saveDocument() would silently drop them. Matches EditPDFTool's
+  // pattern of relying on the viewer's built-in save.
 
   const handleClear = useCallback(() => {
     if (stampState.blobUrl) URL.revokeObjectURL(stampState.blobUrl);
@@ -147,7 +121,7 @@ export function StampsTool({ className = '' }: StampsToolProps) {
                   <li>{tTools('instruction2') || 'Click Add image to upload your stamp'}</li>
                   <li>{tTools('instruction3') || 'Click on the PDF to place the stamp'}</li>
                   <li>{tTools('instruction4') || 'Drag to resize or reposition'}</li>
-                  <li>{tTools('instruction5') || 'Click Save Stamped PDF when done'}</li>
+                  <li>{tTools('instruction5') || 'Click the Export button in the toolbar above to download with stamps applied'}</li>
                 </ol>
               </div>
             </div>
@@ -163,18 +137,6 @@ export function StampsTool({ className = '' }: StampsToolProps) {
               title="PDF Stamp Editor"
             />
           </div>
-
-          <Card variant="outlined">
-            <Button
-              variant="primary"
-              size="lg"
-              onClick={handleSave}
-              disabled={!stampState.viewerReady || isProcessing}
-              loading={isProcessing}
-            >
-              {isProcessing ? (t('status.processing') || 'Processing...') : (tTools('saveButton') || 'Save Stamped PDF')}
-            </Button>
-          </Card>
         </>
       )}
     </div>

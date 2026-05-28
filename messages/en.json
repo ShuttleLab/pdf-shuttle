@@ -1900,7 +1900,7 @@
       "instruction2": "Click \"Add image\" to upload your stamp image",
       "instruction3": "Click on the PDF where you want to place the stamp",
       "instruction4": "Drag to resize or reposition the stamp",
-      "instruction5": "Click \"Save Stamped PDF\" below when done",
+      "instruction5": "Click the Export button in the toolbar above to download with stamps applied",
       "saveButton": "Save Stamped PDF",
       "viewerNotReady": "Viewer not ready. Please wait for the PDF to load.",
       "saveFailed": "Failed to save stamped PDF. Please try again.",
