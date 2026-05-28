@@ -80,3 +80,4 @@ public/libreoffice-wasm/soffice.data
 # Tauri / Cargo (local build output)
 src-tauri/target/
 
+.wrangler/
