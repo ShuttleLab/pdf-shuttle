@@ -346,6 +346,12 @@
       "title": "Ready to Get Started?",
       "description": "Explore our {count}+ PDF tools and see what {brand} can do for you.",
       "button": "Browse All Tools"
+    },
+    "support": {
+      "title": "Meeting you for the first time, it feels like welcoming an old friend.",
+      "description": "{brand} is open source and built by real people — not a corporation. If it helped you, star us on GitHub or share with a friend who might love it. That's the best support we could ask for.",
+      "starButton": "Star on GitHub",
+      "shareButton": "Share with a friend"
     }
   },
   "contactPage": {

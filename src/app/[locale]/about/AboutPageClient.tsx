@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
-import { Shield, Zap, Globe, Heart, Code, Users, ArrowRight } from 'lucide-react';
+import { Shield, Zap, Globe, Heart, Code, Users, ArrowRight, Github, Share2 } from 'lucide-react';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { Button } from '@/components/ui/Button';
@@ -165,6 +165,57 @@ export default function AboutPageClient({ locale }: AboutPageClientProps) {
                 <p>
                   {t('technology.summary')}
                 </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Support / "Old friend" section — note-shuttle convention.
+            Personal warmth + open-source CTA. Placed BEFORE the generic
+            Browse-all-tools CTA so users feel the relationship before the ask. */}
+        <section className="py-16">
+          <div className="container mx-auto px-4">
+            <div className="max-w-3xl mx-auto">
+              <div className="bg-gradient-to-r from-[hsl(var(--color-primary))] via-[hsl(var(--color-primary))] to-[hsl(var(--color-accent))] text-white rounded-2xl p-8 md:p-10 shadow-xl">
+                <div className="flex items-center gap-4 mb-5">
+                  <div className="size-14 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
+                    <Heart className="size-7" aria-hidden="true" />
+                  </div>
+                  <h2 className="text-2xl md:text-3xl font-bold leading-tight">
+                    {t('support.title')}
+                  </h2>
+                </div>
+                <p className="mb-8 opacity-95 text-base md:text-lg leading-relaxed">
+                  {t('support.description', { brand: tCommon('brand') })}
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  <a
+                    href="https://github.com/ShuttleLab/pdf-shuttle"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-[hsl(var(--color-primary))] rounded-lg font-medium hover:bg-white/95 transition-all shadow-sm"
+                  >
+                    <Github className="size-4" aria-hidden="true" />
+                    {t('support.starButton')}
+                  </a>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const url = typeof window !== 'undefined' ? window.location.origin : '';
+                      if (navigator.share) {
+                        navigator.share({ url, title: tCommon('brand') }).catch(() => {
+                          navigator.clipboard?.writeText(url);
+                        });
+                      } else {
+                        navigator.clipboard?.writeText(url);
+                      }
+                    }}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/15 text-white border border-white/30 rounded-lg font-medium hover:bg-white/25 transition-all"
+                  >
+                    <Share2 className="size-4" aria-hidden="true" />
+                    {t('support.shareButton')}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
