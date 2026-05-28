@@ -44,6 +44,7 @@
       "about": "Despre",
       "faq": "FAQ",
       "privacy": "Confidențialitate",
+      "terms": "Termeni",
       "contact": "Contact"
     },
     "buttons": {
@@ -86,7 +87,14 @@
       "footer": "© 2026 ShuttleLab. All rights reserved.",
       "copyright": "© {year} ShuttleLab. Toate drepturile rezervate.",
       "privacyBadge": "100% Privat - Fișierele nu părăsesc niciodată dispozitivul",
-      "madeWith": "Creat cu <Heart /> și <Nextjs />"
+      "madeWith": "Creat cu <Heart /> și <Nextjs />",
+      "trustFiles": "Fișierele nu părăsesc niciodată dispozitivul",
+      "trustPrivacy": "Conform GDPR · 100% privat",
+      "alsoFrom": "Și de la ShuttleLab:",
+      "signature": "Făcut cu grijă · Fără reclame, fără urmărire, fără prostii.",
+      "sourceCode": "Cod sursă",
+      "resources": "Resurse",
+      "otherTools": "Alte instrumente ShuttleLab"
     },
     "recentFiles": {
       "title": "Fișiere Recente",
@@ -282,6 +290,11 @@
   "aboutPage": {
     "title": "Despre {brand}",
     "description": "{brand} este un set de instrumente PDF gratuit, axat pe confidențialitate, care rulează în întregime în browser-ul tău. Cu peste {count} instrumente profesionale, poți edita, converti, combina, diviza și securiza fișierele PDF fără a le încărca vreodată pe un server.",
+    "origin": {
+      "title": "De ce am construit asta",
+      "p1": "Ne-am săturat de fiecare instrument PDF „gratuit\" online care ne cerea să ne înregistrăm, ne bombarda cu reclame sau, mai rău — încărca documentele noastre cine știe unde.",
+      "p2": "Așa că l-am construit pe cel pe care ni l-am dorit mereu: puternic, privat și cu adevărat gratuit. {brand} rulează integral în browser-ul tău. Fără înregistrare. Fără încărcări. Fără urmărire. Doar PDF-uri, făcute cum trebuie."
+    },
     "mission": {
       "title": "Misiunea Noastră",
       "p1": "Credem că toată lumea ar trebui să aibă acces la instrumente PDF puternice fără a-și compromite confidențialitatea sau a plăti taxe de abonament scumpe. De aceea am creat {brand} – un set cuprinzător de instrumente PDF care pune confidențialitatea pe primul loc.",
@@ -333,6 +346,12 @@
       "title": "Ești gata să începi?",
       "description": "Explorează cele peste {count} instrumente PDF și vezi ce poate face {brand} pentru tine.",
       "button": "Răsfoiește Toate Instrumentele"
+    },
+    "support": {
+      "title": "Ne întâlnim pentru prima dată, dar parcă revezi un vechi prieten.",
+      "description": "{brand} este open source și construit de oameni reali — nu de o corporație. Ți-a fost de ajutor? Acordă-ne o stea pe GitHub sau distribuie unui prieten. E cel mai bun sprijin pe care ni-l poți oferi.",
+      "starButton": "Stelează pe GitHub",
+      "shareButton": "Partajează unui prieten"
     }
   },
   "contactPage": {
@@ -429,10 +448,10 @@
   },
   "home": {
     "hero": {
-      "title": "Instrumente PDF Profesionale",
-      "highlight": "Instrumente Profesionale",
-      "subtitle": "Procesare PDF gratuită, privată și puternică în browser-ul tău",
-      "cta": "Începe Acum"
+      "title": "Instrumente PDF care îți respectă",
+      "highlight": "intimitatea",
+      "subtitle": "90+ instrumente gratuite, toate în browser-ul tău. Fără înregistrare, fără încărcări, fără reclame — fișierele nu părăsesc niciodată dispozitivul.",
+      "cta": "Vezi toate instrumentele"
     },
     "features": {
       "privacy": {
@@ -2305,6 +2324,21 @@
       "pagesWithMatches": "Pagini cu potriviri:",
       "selectedMatch": "Selectat",
       "unselectedMatch": "Neselectat"
+    }
+  },
+  "notFound": {
+    "emoji": "📄",
+    "code": "404",
+    "title": "Această pagină s-a rătăcit",
+    "description": "Dar dacă tot ești aici — de ce să nu încerci unul dintre cele mai populare instrumente?",
+    "cta": "Înapoi la pagina principală",
+    "popularToolsHeading": "Instrumente populare",
+    "tools": {
+      "mergePdf": "Îmbină PDF",
+      "splitPdf": "Divizează PDF",
+      "compressPdf": "Comprimă PDF",
+      "pdfToJpg": "PDF în JPG",
+      "jpgToPdf": "JPG în PDF"
     }
   }
 }

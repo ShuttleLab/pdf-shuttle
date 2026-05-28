@@ -43,6 +43,7 @@
       "about": "Über uns",
       "faq": "FAQ",
       "privacy": "Datenschutz",
+      "terms": "AGB",
       "contact": "Kontakt",
       "workflow": "Workflow"
     },
@@ -86,7 +87,14 @@
       "copyright": "© {year} ShuttleLab. Alle Rechte vorbehalten.",
       "privacyBadge": "100% Privat - Dateien verlassen nie Ihr Gerät",
       "footer": "© 2026 ShuttleLab. All rights reserved.",
-      "madeWith": "Made with <Heart /> and <Nextjs />"
+      "madeWith": "Made with <Heart /> and <Nextjs />",
+      "trustFiles": "Dateien verlassen niemals Ihr Gerät",
+      "trustPrivacy": "DSGVO-konform · 100% privat",
+      "alsoFrom": "Auch von ShuttleLab:",
+      "signature": "Mit Sorgfalt gemacht · Keine Werbung, kein Tracking, kein Quatsch.",
+      "sourceCode": "Quellcode",
+      "resources": "Ressourcen",
+      "otherTools": "Andere ShuttleLab-Werkzeuge"
     },
     "recentFiles": {
       "title": "Letzte Dateien",
@@ -269,6 +277,11 @@
   "aboutPage": {
     "title": "Über {brand}",
     "description": "{brand} ist ein kostenloses, datenschutzorientiertes PDF-Toolkit, das vollständig in Ihrem Browser läuft. Mit über {count}+ professionellen Werkzeugen können Sie Ihre PDF-Dateien bearbeiten, konvertieren, zusammenführen, teilen und sichern, ohne sie jemals auf einen Server hochzuladen.",
+    "origin": {
+      "title": "Warum wir das gebaut haben",
+      "p1": "Wir hatten die Nase voll von jedem „kostenlosen\" Online-PDF-Tool, das uns zur Anmeldung zwingt, mit Werbung belästigt oder schlimmer noch — unsere Dokumente weiß Gott wohin hochlädt.",
+      "p2": "Also haben wir das gebaut, das wir uns schon immer gewünscht haben: leistungsstark, privat und wirklich kostenlos. {brand} läuft komplett in deinem Browser. Keine Anmeldung. Keine Uploads. Kein Tracking. Einfach PDFs, richtig gemacht."
+    },
     "mission": {
       "title": "Unsere Mission",
       "p1": "Wir glauben, dass jeder Zugang zu leistungsstarken PDF-Werkzeugen haben sollte, ohne seine Privatsphäre zu gefährden oder teure Abonnementgebühren zu zahlen. Deshalb haben wir {brand} entwickelt – ein umfassendes PDF-Toolkit, das Ihre Privatsphäre an erste Stelle setzt.",
@@ -320,6 +333,12 @@
       "title": "Bereit loszulegen?",
       "description": "Erkunden Sie unsere {count}+ PDF-Werkzeuge und entdecken Sie, was {brand} für Sie tun kann.",
       "button": "Alle Werkzeuge durchsuchen"
+    },
+    "support": {
+      "title": "Wir begegnen uns zum ersten Mal — und doch fühlt es sich an wie das Wiedersehen mit einem alten Freund.",
+      "description": "{brand} ist Open Source und wird von echten Menschen betrieben — nicht von einem Konzern. Wenn es dir geholfen hat, gib uns einen Stern auf GitHub oder teile es mit einem Freund. Das ist die beste Unterstützung, die wir uns wünschen können.",
+      "starButton": "Auf GitHub starren",
+      "shareButton": "Mit einem Freund teilen"
     }
   },
   "contactPage": {
@@ -416,10 +435,10 @@
   },
   "home": {
     "hero": {
-      "title": "Professionelle PDF-Werkzeuge",
-      "highlight": "Professionelle Werkzeuge",
-      "subtitle": "Kostenlose, private und leistungsstarke PDF-Verarbeitung in Ihrem Browser",
-      "cta": "Loslegen"
+      "title": "PDF-Tools, die deine",
+      "highlight": "Privatsphäre",
+      "subtitle": "90+ kostenlose Werkzeuge, alle in deinem Browser. Keine Anmeldung, keine Uploads, keine Werbung — deine Dateien verlassen niemals dein Gerät.",
+      "cta": "Alle Werkzeuge ansehen"
     },
     "features": {
       "privacy": {
@@ -2305,6 +2324,21 @@
       "pagesWithMatches": "Seiten mit Übereinstimmungen:",
       "selectedMatch": "Ausgewählt",
       "unselectedMatch": "Nicht ausgewählt"
+    }
+  },
+  "notFound": {
+    "emoji": "📄",
+    "code": "404",
+    "title": "Diese Seite hat sich verlaufen",
+    "description": "Aber solange Sie hier sind — probieren Sie doch eines unserer beliebtesten Werkzeuge aus?",
+    "cta": "Zurück zur Startseite",
+    "popularToolsHeading": "Beliebte Werkzeuge",
+    "tools": {
+      "mergePdf": "PDF zusammenführen",
+      "splitPdf": "PDF aufteilen",
+      "compressPdf": "PDF komprimieren",
+      "pdfToJpg": "PDF in JPG",
+      "jpgToPdf": "JPG in PDF"
     }
   }
 }

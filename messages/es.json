@@ -43,6 +43,7 @@
       "about": "Acerca de",
       "faq": "Preguntas Frecuentes",
       "privacy": "Privacidad",
+      "terms": "Términos",
       "contact": "Contacto",
       "workflow": "Flujo de trabajo"
     },
@@ -86,7 +87,14 @@
       "copyright": "© {year} ShuttleLab. Todos los derechos reservados.",
       "privacyBadge": "100% Privado - Los archivos nunca salen de tu dispositivo",
       "footer": "© 2026 ShuttleLab. All rights reserved.",
-      "madeWith": "Hecho con <Heart /> y <Nextjs />"
+      "madeWith": "Hecho con <Heart /> y <Nextjs />",
+      "trustFiles": "Los archivos nunca salen de tu dispositivo",
+      "trustPrivacy": "Cumple RGPD · 100% privado",
+      "alsoFrom": "También de ShuttleLab:",
+      "signature": "Hecho con cuidado · Sin anuncios, sin rastreo, sin rodeos.",
+      "sourceCode": "Código fuente",
+      "resources": "Recursos",
+      "otherTools": "Otras herramientas ShuttleLab"
     },
     "recentFiles": {
       "title": "Archivos Recientes",
@@ -269,6 +277,11 @@
   "aboutPage": {
     "title": "Acerca de {brand}",
     "description": "{brand} es un kit de herramientas PDF gratuito y enfocado en la privacidad que funciona íntegramente en tu navegador. Con más de {count}+ herramientas profesionales, puedes editar, convertir, combinar, dividir y proteger tus archivos PDF sin subirlos jamás a un servidor.",
+    "origin": {
+      "title": "Por qué creamos esto",
+      "p1": "Estábamos hartos de que cada herramienta PDF \"gratuita\" en línea nos obligara a registrarnos, nos bombardeara con publicización o, peor aún, subiera nuestros documentos a Dios sabe dónde.",
+      "p2": "Así que construimos la que siempre quisimos: potente, privada y realmente gratuita. {brand} se ejecuta completamente en tu navegador. Sin registros. Sin subidas. Sin rastreo. Solo PDFs, bien hechos."
+    },
     "mission": {
       "title": "Nuestra Misión",
       "p1": "Creemos que todos deberían tener acceso a potentes herramientas PDF sin comprometer su privacidad ni pagar costosas suscripciones. Por eso creamos {brand}: un completo kit de herramientas PDF que pone tu privacidad en primer lugar.",
@@ -320,6 +333,12 @@
       "title": "¿Listo para Empezar?",
       "description": "Explora nuestras {count}+ herramientas PDF y descubre lo que {brand} puede hacer por ti.",
       "button": "Ver todas las herramientas"
+    },
+    "support": {
+      "title": "Es la primera vez que nos vemos, y ya te siento como un viejo amigo.",
+      "description": "{brand} es de código abierto y está construido por personas reales — no por una corporación. Si te ayudó, danos una estrella en GitHub o compártelo con un amigo. Es el mejor apoyo que podemos pedir.",
+      "starButton": "Star en GitHub",
+      "shareButton": "Compartir con un amigo"
     }
   },
   "contactPage": {
@@ -416,10 +435,10 @@
   },
   "home": {
     "hero": {
-      "title": "Herramientas PDF Profesionales",
-      "highlight": "Herramientas Profesionales",
-      "subtitle": "Procesamiento PDF gratuito, privado y potente en tu navegador",
-      "cta": "Comenzar"
+      "title": "Herramientas PDF que respetan tu",
+      "highlight": "privacidad",
+      "subtitle": "90+ herramientas gratuitas, todas en tu navegador. Sin registros, sin subidas, sin anuncios — tus archivos nunca salen de tu dispositivo.",
+      "cta": "Ver todas las herramientas"
     },
     "features": {
       "privacy": {
@@ -2305,6 +2324,21 @@
       "pagesWithMatches": "Páginas con coincidencias:",
       "selectedMatch": "Seleccionado",
       "unselectedMatch": "No seleccionado"
+    }
+  },
+  "notFound": {
+    "emoji": "📄",
+    "code": "404",
+    "title": "Esta página se perdió",
+    "description": "Pero ya que estás aquí — ¿por qué no pruebas una de nuestras herramientas más populares?",
+    "cta": "Volver al inicio",
+    "popularToolsHeading": "Herramientas populares",
+    "tools": {
+      "mergePdf": "Combinar PDF",
+      "splitPdf": "Dividir PDF",
+      "compressPdf": "Comprimir PDF",
+      "pdfToJpg": "PDF a JPG",
+      "jpgToPdf": "JPG a PDF"
     }
   }
 }

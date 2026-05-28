@@ -44,6 +44,7 @@
       "about": "Giới thiệu",
       "faq": "FAQ",
       "privacy": "Bảo mật",
+      "terms": "Điều khoản",
       "contact": "Liên hệ"
     },
     "buttons": {
@@ -86,7 +87,14 @@
       "footer": "© 2026 ShuttleLab. All rights reserved.",
       "copyright": "© {year} ShuttleLab. Bảo lưu mọi quyền.",
       "privacyBadge": "100% Riêng tư - Tệp không bao giờ rời khỏi thiết bị",
-      "madeWith": "Được tạo bởi <Heart /> và <Nextjs />"
+      "madeWith": "Được tạo bởi <Heart /> và <Nextjs />",
+      "trustFiles": "Tệp không bao giờ rời khỏi thiết bị của bạn",
+      "trustPrivacy": "Tuân thủ GDPR · 100% riêng tư",
+      "alsoFrom": "Cũng từ ShuttleLab:",
+      "signature": "Làm bằng tâm · Không quảng cáo, không theo dõi, không phiền phức.",
+      "sourceCode": "Mã nguồn",
+      "resources": "Tài nguyên",
+      "otherTools": "Công cụ ShuttleLab khác"
     },
     "recentFiles": {
       "title": "Tệp Gần đây",
@@ -282,6 +290,11 @@
   "aboutPage": {
     "title": "Giới thiệu về {brand}",
     "description": "{brand} là bộ công cụ PDF miễn phí, tập trung vào quyền riêng tư, chạy hoàn toàn trong trình duyệt. Với hơn {count} công cụ chuyên nghiệp, bạn có thể chỉnh sửa, chuyển đổi, hợp nhất, tách và bảo mật tệp PDF mà không cần tải lên máy chủ.",
+    "origin": {
+      "title": "Tại sao chúng tôi xây dựng điều này",
+      "p1": "Chúng tôi đã chán ngấy mỗi công cụ PDF \"miễn phí\" trực tuyến đòi đăng ký, nhồi nhét quảng cáo, hoặc tệ hơn — tải tài liệu của bạn lên trời biết đâu.",
+      "p2": "Vì vậy, chúng tôi xây dựng công cụ mà mình luôn muốn: mạnh mẽ, riêng tư và thực sự miễn phí. {brand} chạy hoàn toàn trên trình duyệt của bạn. Không đăng ký. Không tải lên. Không theo dõi. Chỉ PDF, được xử lý đúng cách."
+    },
     "mission": {
       "title": "Sứ mệnh của chúng tôi",
       "p1": "Chúng tôi tin rằng mọi người đều nên có quyền truy cập vào các công cụ PDF mạnh mẽ mà không phải hy sinh quyền riêng tư hoặc trả phí đăng ký đắt đỏ. Đó là lý do chúng tôi tạo ra {brand} – bộ công cụ PDF toàn diện đặt quyền riêng tư lên hàng đầu.",
@@ -333,6 +346,12 @@
       "title": "Sẵn sàng Bắt đầu?",
       "description": "Khám phá hơn {count} công cụ PDF và xem {brand} có thể làm gì cho bạn.",
       "button": "Khám phá Tất cả Công cụ"
+    },
+    "support": {
+      "title": "Lần đầu gặp gỡ, mà như đón một người bạn cũ trở về.",
+      "description": "{brand} là dự án mã nguồn mở, được xây dựng bởi những con người thật — không phải công ty. Nếu nó giúp ích cho bạn, hãy cho chúng tôi một Star trên GitHub hoặc chia sẻ với bạn bè. Đó là sự ủng hộ lớn nhất dành cho chúng tôi.",
+      "starButton": "Star trên GitHub",
+      "shareButton": "Chia sẻ với bạn bè"
     }
   },
   "contactPage": {
@@ -429,10 +448,10 @@
   },
   "home": {
     "hero": {
-      "title": "Công cụ PDF Chuyên nghiệp",
-      "highlight": "Công cụ Chuyên nghiệp",
-      "subtitle": "Xử lý PDF miễn phí, riêng tư và mạnh mẽ ngay trong trình duyệt",
-      "cta": "Bắt đầu Ngay"
+      "title": "Công cụ PDF tôn trọng",
+      "highlight": "quyền riêng tư của bạn",
+      "subtitle": "90+ công cụ miễn phí, tất cả trên trình duyệt của bạn. Không đăng ký, không tải lên, không quảng cáo — tệp không bao giờ rời khỏi thiết bị.",
+      "cta": "Xem tất cả công cụ"
     },
     "features": {
       "privacy": {
@@ -2305,6 +2324,21 @@
       "pagesWithMatches": "Trang có kết quả:",
       "selectedMatch": "Đã chọn",
       "unselectedMatch": "Chưa chọn"
+    }
+  },
+  "notFound": {
+    "emoji": "📄",
+    "code": "404",
+    "title": "Trang này bị lạc rồi",
+    "description": "Nhưng既然 bạn đã ở đây — thử một trong những công cụ phổ biến nhất của chúng tôi nhé?",
+    "cta": "Về trang chủ",
+    "popularToolsHeading": "Công cụ phổ biến",
+    "tools": {
+      "mergePdf": "Gộp PDF",
+      "splitPdf": "Tách PDF",
+      "compressPdf": "Nén PDF",
+      "pdfToJpg": "PDF sang JPG",
+      "jpgToPdf": "JPG sang PDF"
     }
   }
 }

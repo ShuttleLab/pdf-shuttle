@@ -44,6 +44,7 @@
       "about": "关于",
       "faq": "常见问题",
       "privacy": "隐私",
+      "terms": "条款",
       "contact": "联系我们"
     },
     "buttons": {
@@ -86,7 +87,14 @@
       "footer": "© 2026 ShuttleLab. 保留所有权利。",
       "copyright": "© {year} ShuttleLab. 保留所有权利。",
       "privacyBadge": "100% 私密 - 文件永不离开您的设备",
-      "madeWith": "Made with <Heart /> and <Nextjs />"
+      "madeWith": "Made with <Heart /> and <Nextjs />",
+      "trustFiles": "文件永不离开您的设备",
+      "trustPrivacy": "符合 GDPR · 100% 私密",
+      "alsoFrom": "ShuttleLab 旗下还有：",
+      "signature": "用心打造 · 无广告、无追踪、无套路。",
+      "sourceCode": "源代码",
+      "resources": "资源",
+      "otherTools": "其他 ShuttleLab 工具"
     },
     "recentFiles": {
       "title": "最近文件",
@@ -282,6 +290,11 @@
   "aboutPage": {
     "title": "关于 {brand}",
     "description": "{brand} 是一个免费、注重隐私的 PDF 工具包，完全在您的浏览器中运行。拥有 {count}+ 个专业工具，您可以编辑、转换、合并、分割和保护您的 PDF 文件，而无需将其上传到任何服务器。",
+    "origin": {
+      "title": "为什么要做这个",
+      "p1": "我们受够了每个「免费」的在线 PDF 工具都要你注册、用广告轰炸你、甚至更糟——把你的文件上传到天知道什么地方。",
+      "p2": "所以我们做了自己一直想要的那个：强大、私密、真正免费。{brand} 完全在浏览器中运行。无需注册。无需上传。无需追踪。只做 PDF，做到最好。"
+    },
     "mission": {
       "title": "我们的使命",
       "p1": "我们相信，每个人都应该能够使用强大的 PDF 工具，而无需牺牲隐私或支付昂贵的订阅费用。这就是为什么我们创建了 {brand} —— 一个将您的隐私放在首位的综合 PDF 工具包。",
@@ -333,6 +346,12 @@
       "title": "准备好开始了吗？",
       "description": "探索我们的 {count}+ 个 PDF 工具，看看 {brand} 能为您做什么。",
       "button": "浏览所有工具"
+    },
+    "support": {
+      "title": "与君初相识，犹如故人归。",
+      "description": "{brand} 是开源项目，由真实的人维护——不是大公司。如果对您有帮助，给我们一个 GitHub Star，或分享给身边可能用得上的朋友。这就是对我们最大的支持。",
+      "starButton": "在 GitHub 上 Star",
+      "shareButton": "分享给朋友"
     }
   },
   "contactPage": {
@@ -429,10 +448,10 @@
   },
   "home": {
     "hero": {
-      "title": "专业PDF工具",
-      "highlight": "专业工具",
-      "subtitle": "在浏览器中免费、私密、强大的PDF处理",
-      "cta": "开始使用"
+      "title": "PDF 工具，真正尊重您的",
+      "highlight": "隐私",
+      "subtitle": "90+ 免费工具，全部在浏览器中运行。无需注册、无需上传、无广告——文件永不离开您的设备。",
+      "cta": "浏览所有工具"
     },
     "features": {
       "privacy": {
@@ -2305,6 +2324,21 @@
       "pagesWithMatches": "包含匹配的页面：",
       "selectedMatch": "已选中",
       "unselectedMatch": "未选中"
+    }
+  },
+  "notFound": {
+    "emoji": "📄",
+    "code": "404",
+    "title": "这个页面走丢了",
+    "description": "不过既然来了 —— 不如试试我们最常用的工具？",
+    "cta": "返回首页",
+    "popularToolsHeading": "热门工具",
+    "tools": {
+      "mergePdf": "合并 PDF",
+      "splitPdf": "拆分 PDF",
+      "compressPdf": "压缩 PDF",
+      "pdfToJpg": "PDF 转 JPG",
+      "jpgToPdf": "JPG 转 PDF"
     }
   }
 }

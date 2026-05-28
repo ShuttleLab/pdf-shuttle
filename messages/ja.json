@@ -43,6 +43,7 @@
       "about": "概要",
       "faq": "よくある質問",
       "privacy": "プライバシー",
+      "terms": "規約",
       "contact": "お問い合わせ",
       "workflow": "ワークフロー"
     },
@@ -86,7 +87,14 @@
       "copyright": "© {year} ShuttleLab. All rights reserved.",
       "privacyBadge": "100%プライベート - ファイルはデバイスから離れません",
       "footer": "© 2026 ShuttleLab. All rights reserved.",
-      "madeWith": "Made with <Heart /> and <Nextjs />"
+      "madeWith": "Made with <Heart /> and <Nextjs />",
+      "trustFiles": "ファイルはデバイスから外に出ません",
+      "trustPrivacy": "GDPR準拠 · 100%プライベート",
+      "alsoFrom": "ShuttleLabの其他ツール:",
+      "signature": "丁寧に作りました · 広告なし、追跡なし、ごまかしなし。",
+      "sourceCode": "ソースコード",
+      "resources": "リソース",
+      "otherTools": "その他のShuttleLabツール"
     },
     "recentFiles": {
       "title": "最近のファイル",
@@ -196,10 +204,10 @@
   },
   "home": {
     "hero": {
-      "title": "プロフェッショナルPDFツール",
-      "highlight": "プロフェッショナルツール",
-      "subtitle": "ブラウザで無料で使える、プライバシー重視の強力なPDF処理ツール",
-      "cta": "始める"
+      "title": "あなたのプライバシーを尊重する",
+      "highlight": "PDF ツール",
+      "subtitle": "90以上の無料ツール、すべてブラウザで動作。登録不要、アップロードなし、広告なし — ファイルはデバイスから外に出ません。",
+      "cta": "すべてのツールを見る"
     },
     "features": {
       "privacy": {
@@ -2187,6 +2195,11 @@
   "aboutPage": {
     "title": "{brand}について",
     "description": "{brand}は、ブラウザ内で完全に動作する、無料でプライバシーを重視したPDFツールセットです。{count}以上のプロフェッショナルなツールを使用して、サーバーにアップロードすることなく、PDFファイルの編集、変換、結合、分割、セキュリティ向上を行えます。",
+    "origin": {
+      "title": "なぜこれをつくったのか",
+      "p1": "「無料」のオンラインPDFツールに登録を求められ、広告に邪魔され、最悪の場合——ファイルがどこに送信されるかわからない——そんな経験にうんざりしていました。",
+      "p2": "だから、自分たちが本当に欲しかったものをつくりました：高機能で、プライベートで、本当に無料。{brand}はブラウザ上で完全に動作します。登録不要。アップロードなし。追跡なし。ただPDFを、正しく処理する。"
+    },
     "mission": {
       "title": "私たちの使命",
       "p1": "私たちは、プライバシーを妥協したり高額なサブスクリプション料金を支払ったりすることなく、誰もが強力なPDFツールにアクセスできるべきだと信じています。だからこそ、プライバシーを第一に考えた包括的なPDFツールセットである{brand}を作成しました。",
@@ -2238,6 +2251,12 @@
       "title": "準備はできましたか？",
       "description": "{count}以上のPDFツールを探索して、{brand}があなたの手助けをどのようにできるかを確認してください。",
       "button": "すべてのツールを見る"
+    },
+    "support": {
+      "title": "はじめまして。なのに、まるで旧友のように。",
+      "description": "{brand}はオープンソースで、本物の人々が作っています——企業ではありません。助けになったら、GitHubでスターを付けて友達にシェアしてください。それが私たちへの最高の支援です。",
+      "starButton": "GitHub で Star する",
+      "shareButton": "友達にシェア"
     }
   },
   "contactPage": {
@@ -2305,6 +2324,21 @@
       "title": "簡単な回答をお探しですか？",
       "description": "{brand}に関するよくある質問については、FAQページをご覧ください。",
       "button": "FAQを表示"
+    }
+  },
+  "notFound": {
+    "emoji": "📄",
+    "code": "404",
+    "title": "このページは迷子になりました",
+    "description": "でも、ここまで来たなら — よく使われるツールを試してみませんか？",
+    "cta": "ホームに戻る",
+    "popularToolsHeading": "人気のツール",
+    "tools": {
+      "mergePdf": "PDF結合",
+      "splitPdf": "PDF分割",
+      "compressPdf": "PDF圧縮",
+      "pdfToJpg": "PDFからJPG",
+      "jpgToPdf": "JPGからPDF"
     }
   }
 }

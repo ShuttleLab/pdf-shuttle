@@ -43,6 +43,7 @@
       "about": "소개",
       "faq": "자주 묻는 질문",
       "privacy": "개인정보",
+      "terms": "약관",
       "contact": "문의",
       "workflow": "워크플로"
     },
@@ -86,7 +87,14 @@
       "copyright": "© {year} ShuttleLab. All rights reserved.",
       "privacyBadge": "100% 프라이빗 - 파일이 기기를 떠나지 않습니다",
       "footer": "© 2026 ShuttleLab. All rights reserved.",
-      "madeWith": "Made with <Heart /> and <Nextjs />"
+      "madeWith": "Made with <Heart /> and <Nextjs />",
+      "trustFiles": "파일이 기기를 떠나지 않습니다",
+      "trustPrivacy": "GDPR 준수 · 100% 프라이빗",
+      "alsoFrom": "ShuttleLab의 다른 도구:",
+      "signature": "정성껏 만들었습니다 · 광고 없음, 추적 없음, 허튼소리 없음.",
+      "sourceCode": "소스 코드",
+      "resources": "리소스",
+      "otherTools": "기타 ShuttleLab 도구"
     },
     "recentFiles": {
       "title": "최근 파일",
@@ -196,10 +204,10 @@
   },
   "home": {
     "hero": {
-      "title": "전문 PDF 도구",
-      "highlight": "전문 도구",
-      "subtitle": "브라우저에서 무료로 안전하고 강력하게 PDF 처리",
-      "cta": "시작하기"
+      "title": "당신의 프라이버시를 존중하는",
+      "highlight": "PDF 도구",
+      "subtitle": "90개 이상의 무료 도구, 모두 브라우저에서 실행. 가입 불필요, 업로드 없음, 광고 없음 — 파일이 기기를 떠나지 않습니다.",
+      "cta": "모든 도구 보기"
     },
     "features": {
       "privacy": {
@@ -2187,6 +2195,11 @@
   "aboutPage": {
     "title": "{brand} 소개",
     "description": "{brand}는 브라우저에서 완전히 실행되는 무료 개인정보 보호 중심 PDF 툴킷입니다. {count}개 이상의 전문 도구를 사용하여 파일을 서버에 업로드하지 않고도 PDF 파일을 편집, 변환, 병합, 분할 및 보안 처리를 할 수 있습니다.",
+    "origin": {
+      "title": "왜 이것을 만들었나요",
+      "p1": "\"무료\" 온라인 PDF 도구마다 가입을 요구하고, 광고로 괴롭히거나, 더 나쁜 경우 — 문서를 어딘가로 업로드하는 것에 지쳤습니다.",
+      "p2": "그래서 우리가 항상 원했던 도구를 만들었습니다: 강력하고, 프라이빗하고, 진짜 무료인. {brand}는 브라우저에서 완전히 실행됩니다. 가입 불필요. 업로드 없음. 추적 없음. 그저 PDF를, 제대로 처리."
+    },
     "mission": {
       "title": "우리의 임무",
       "p1": "우리는 개인정보를 타협하거나 값비싼 구독료를 내지 않고도 누구나 강력한 PDF 도구를 사용할 수 있어야 한다고 믿습니다. 이것이 바로 개인정보를 최우선으로 하는 종합 PDF 툴킷인 {brand}를 만든 이유입니다.",
@@ -2238,6 +2251,12 @@
       "title": "시작할 준비가 되셨나요?",
       "description": "{count}개 이상의 PDF 도구를 살펴보고 {brand}가 귀하를 위해 무엇을 할 수 있는지 확인해 보세요.",
       "button": "모든 도구 탐색"
+    },
+    "support": {
+      "title": "처음 만나는데도, 오랜 친구를 다시 만난 것 같습니다.",
+      "description": "{brand}는 오픈 소스이며 실제 사람들이 만들고 있습니다 — 기업이 아닙니다. 도움이 되셨다면, GitHub에 Star를 눌러주시거나 친구에게 공유해 주세요. 그것이 저희에게 가장 큰 지원입니다.",
+      "starButton": "GitHub에 Star",
+      "shareButton": "친구에게 공유"
     }
   },
   "contactPage": {
@@ -2305,6 +2324,21 @@
       "title": "빠른 답변을 원하시나요?",
       "description": "{brand}에 대한 자주 묻는 질문은 FAQ 페이지에서 확인하세요.",
       "button": "FAQ 보기"
+    }
+  },
+  "notFound": {
+    "emoji": "📄",
+    "code": "404",
+    "title": "이 페이지는 길을 잃었어요",
+    "description": "그래도 여기까지 왔으니 — 가장 많이 쓰는 도구를 사용해 보시겠어요?",
+    "cta": "홈으로 돌아가기",
+    "popularToolsHeading": "인기 도구",
+    "tools": {
+      "mergePdf": "PDF 병합",
+      "splitPdf": "PDF 분할",
+      "compressPdf": "PDF 압축",
+      "pdfToJpg": "PDF를 JPG로",
+      "jpgToPdf": "JPG를 PDF로"
     }
   }
 }

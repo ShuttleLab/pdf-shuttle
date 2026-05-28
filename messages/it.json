@@ -44,6 +44,7 @@
       "about": "Informazioni",
       "faq": "FAQ",
       "privacy": "Privacy",
+      "terms": "Termini",
       "contact": "Contatti"
     },
     "buttons": {
@@ -86,7 +87,14 @@
       "footer": "© 2026 ShuttleLab. All rights reserved.",
       "copyright": "© {year} ShuttleLab. Tutti i diritti riservati.",
       "privacyBadge": "100% Privato - I file non lasciano mai il tuo dispositivo",
-      "madeWith": "Creato con <Heart /> e <Nextjs />"
+      "madeWith": "Creato con <Heart /> e <Nextjs />",
+      "trustFiles": "I tuoi file non lasciano mai il dispositivo",
+      "trustPrivacy": "Conforme al GDPR · 100% privato",
+      "alsoFrom": "Anche da ShuttleLab:",
+      "signature": "Fatto con cura · Niente pubblicità, niente tracciamento, niente fuffa.",
+      "sourceCode": "Codice sorgente",
+      "resources": "Risorse",
+      "otherTools": "Altri strumenti ShuttleLab"
     },
     "recentFiles": {
       "title": "File recenti",
@@ -282,6 +290,11 @@
   "aboutPage": {
     "title": "Informazioni su {brand}",
     "description": "{brand} è un kit di strumenti PDF gratuito e incentrato sulla privacy che funziona interamente nel tuo browser. Con oltre {count} strumenti professionali puoi modificare, convertire, unire, dividere e proteggere i tuoi PDF senza mai caricarli su un server.",
+    "origin": {
+      "title": "Perché l'abbiamo creato",
+      "p1": "Eravamo stufi di ogni strumento PDF \"gratuito\" online che ci obbligava a iscriverci, ci bombardava di pubblicità o peggio — caricava i nostri documenti chissà dove.",
+      "p2": "Così abbiamo costruito quello che abbiamo sempre voluto: potente, privato e davvero gratuito. {brand} funziona interamente nel tuo browser. Nessuna registrazione. Nessun upload. Nessun tracciamento. Solo PDF, fatti bene."
+    },
     "mission": {
       "title": "La nostra missione",
       "p1": "Crediamo che tutti debbano avere accesso a strumenti PDF potenti senza compromettere la privacy o pagare abbonamenti costosi. Per questo abbiamo creato {brand}: un kit di strumenti completo che mette la tua privacy al primo posto.",
@@ -333,6 +346,12 @@
       "title": "Pronto per iniziare?",
       "description": "Esplora i nostri {count}+ strumenti PDF e scopri cosa può fare {brand} per te.",
       "button": "Sfoglia tutti gli strumenti"
+    },
+    "support": {
+      "title": "Ci incontriamo per la prima volta, eppure mi sembra di accogliere un vecchio amico.",
+      "description": "{brand} è open source e costruito da persone reali — non da un'azienda. Ti è stato utile? Metti una stella su GitHub o condividilo con un amico. È il miglior supporto che possiamo chiedere.",
+      "starButton": "Star su GitHub",
+      "shareButton": "Condividi con un amico"
     }
   },
   "contactPage": {
@@ -429,10 +448,10 @@
   },
   "home": {
     "hero": {
-      "title": "Strumenti PDF Professionali",
-      "highlight": "Strumenti Professionali",
-      "subtitle": "Elaborazione PDF gratuita, privata e potente nel tuo browser",
-      "cta": "Inizia"
+      "title": "Strumenti PDF che rispettano la tua",
+      "highlight": "privacy",
+      "subtitle": "90+ strumenti gratuiti, tutti nel tuo browser. Nessuna registrazione, nessun upload, nessuna pubblicità — i tuoi file non lasciano mai il dispositivo.",
+      "cta": "Vedi tutti gli strumenti"
     },
     "features": {
       "privacy": {
@@ -2305,6 +2324,21 @@
       "pagesWithMatches": "Pagine con corrispondenze:",
       "selectedMatch": "Selezionato",
       "unselectedMatch": "Non selezionato"
+    }
+  },
+  "notFound": {
+    "emoji": "📄",
+    "code": "404",
+    "title": "Questa pagina si è persa",
+    "description": "Ma visto che sei qui — perché non provi uno dei nostri strumenti più usati?",
+    "cta": "Torna alla home",
+    "popularToolsHeading": "Strumenti popolari",
+    "tools": {
+      "mergePdf": "Unisci PDF",
+      "splitPdf": "Dividi PDF",
+      "compressPdf": "Comprimi PDF",
+      "pdfToJpg": "PDF in JPG",
+      "jpgToPdf": "JPG in PDF"
     }
   }
 }

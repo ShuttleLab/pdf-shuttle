@@ -44,6 +44,7 @@
       "about": "關於",
       "faq": "常見問題",
       "privacy": "隱私",
+      "terms": "條款",
       "contact": "聯絡我們"
     },
     "buttons": {
@@ -86,7 +87,14 @@
       "footer": "© 2026 ShuttleLab. All rights reserved.",
       "copyright": "© {year} ShuttleLab. 保留所有權利。",
       "privacyBadge": "100% 私密 - 檔案永不離開您的裝置",
-      "madeWith": "Made with <Heart /> and <Nextjs />"
+      "madeWith": "Made with <Heart /> and <Nextjs />",
+      "trustFiles": "檔案永不離開您的裝置",
+      "trustPrivacy": "符合 GDPR · 100% 私密",
+      "alsoFrom": "ShuttleLab 旗下還有：",
+      "signature": "用心打造 · 無廣告、無追蹤、無套路。",
+      "sourceCode": "原始碼",
+      "resources": "資源",
+      "otherTools": "其他 ShuttleLab 工具"
     },
     "recentFiles": {
       "title": "最近檔案",
@@ -282,6 +290,11 @@
   "aboutPage": {
     "title": "關於 {brand}",
     "description": "{brand} 是一個免費、注重隱私的 PDF 工具包，完全在您的瀏覽器中執行。擁有 {count}+ 個專業工具，您可以編輯、轉換、合併、分割和保護您的 PDF 檔案，而無需將其上傳到任何伺服器。",
+    "origin": {
+      "title": "為什麼要做這個",
+      "p1": "我們受夠了每個「免費」的線上 PDF 工具都要你註冊、用廣告轟炸你、甚至更糟——把你的檔案上傳到天知道什麼地方。",
+      "p2": "所以我們做了自己一直想要的那個：強大、私密、真正免費。{brand} 完全在瀏覽器中運行。無需註冊。無需上傳。無需追蹤。只做 PDF，做到最好。"
+    },
     "mission": {
       "title": "我們的使命",
       "p1": "我們相信，每個人都應該能夠使用強大的 PDF 工具，而無需犧牲隱私或支付昂貴的訂閱費用。這就是為什麼我們建立了 {brand} —— 一個將您的隱私放在首位的綜合 PDF 工具包。",
@@ -333,6 +346,12 @@
       "title": "準備好開始了嗎？",
       "description": "探索我們的 {count}+ 個 PDF 工具，看看 {brand} 能為您做什麼。",
       "button": "瀏覽所有工具"
+    },
+    "support": {
+      "title": "與君初相識，猶如故人歸。",
+      "description": "{brand} 是開源專案，由真實的人維護——不是大公司。如果對您有幫助，給我們一個 GitHub Star，或分享給身邊可能用得上的朋友。這就是對我們最大的支持。",
+      "starButton": "在 GitHub 上 Star",
+      "shareButton": "分享給朋友"
     }
   },
   "contactPage": {
@@ -429,10 +448,10 @@
   },
   "home": {
     "hero": {
-      "title": "專業PDF工具",
-      "highlight": "專業工具",
-      "subtitle": "在瀏覽器中免費、隱私、強大的PDF處理",
-      "cta": "開始使用"
+      "title": "PDF 工具，真正尊重您的",
+      "highlight": "隱私",
+      "subtitle": "90+ 免費工具，全部在瀏覽器中運行。無需註冊、無需上傳、無廣告——檔案永不離開您的裝置。",
+      "cta": "瀏覽所有工具"
     },
     "features": {
       "privacy": {
@@ -2305,6 +2324,21 @@
       "pagesWithMatches": "包含符合項目的頁面：",
       "selectedMatch": "已選取",
       "unselectedMatch": "未選取"
+    }
+  },
+  "notFound": {
+    "emoji": "📄",
+    "code": "404",
+    "title": "這個頁面走丟了",
+    "description": "不過既然來了 —— 不如試試我們最常用的工具？",
+    "cta": "返回首頁",
+    "popularToolsHeading": "熱門工具",
+    "tools": {
+      "mergePdf": "合併 PDF",
+      "splitPdf": "拆分 PDF",
+      "compressPdf": "壓縮 PDF",
+      "pdfToJpg": "PDF 轉 JPG",
+      "jpgToPdf": "JPG 轉 PDF"
     }
   }
 }
