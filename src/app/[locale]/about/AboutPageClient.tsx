@@ -72,7 +72,27 @@ export default function AboutPageClient({ locale }: AboutPageClientProps) {
         </section>
 
         {/* Mission Section */}
+        {/* Origin Story — personal narrative, more warmth than corporate mission */}
         <section className="py-16">
+          <div className="container mx-auto px-4">
+            <div className="max-w-3xl mx-auto">
+              <h2 className="text-3xl font-bold text-[hsl(var(--color-foreground))] mb-6 text-center">
+                {t('origin.title')}
+              </h2>
+              <div className="prose prose-lg max-w-none text-[hsl(var(--color-muted-foreground))]">
+                <p className="mb-4 text-lg leading-relaxed">
+                  {t('origin.p1')}
+                </p>
+                <p className="text-lg leading-relaxed">
+                  {t('origin.p2', { brand: tCommon('brand') })}
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Mission */}
+        <section className="py-16 border-t border-[hsl(var(--color-border))/0.5]">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto">
               <h2 className="text-3xl font-bold text-[hsl(var(--color-foreground))] mb-6 text-center">

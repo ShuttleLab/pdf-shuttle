@@ -44,6 +44,7 @@
       "about": "About",
       "faq": "FAQ",
       "privacy": "Privacy",
+      "terms": "Terms",
       "contact": "Contact"
     },
     "buttons": {
@@ -86,7 +87,14 @@
       "footer": "© 2026 ShuttleLab. All rights reserved.",
       "copyright": "© {year} ShuttleLab. All rights reserved.",
       "privacyBadge": "100% Private - Files never leave your device",
-      "madeWith": "Made with <Heart /> and <Nextjs />"
+      "madeWith": "Made with <Heart /> and <Nextjs />",
+      "trustFiles": "Files never leave your device",
+      "trustPrivacy": "GDPR compliant · 100% private",
+      "alsoFrom": "Also from ShuttleLab:",
+      "signature": "Made with care · No ads, no tracking, no nonsense.",
+      "sourceCode": "Source code",
+      "resources": "Resources",
+      "otherTools": "Other ShuttleLab Tools"
     },
     "recentFiles": {
       "title": "Recent Files",
@@ -282,6 +290,11 @@
   "aboutPage": {
     "title": "About {brand}",
     "description": "{brand} is a free, privacy-focused PDF toolkit that runs entirely in your browser. With {count}+ professional tools, you can edit, convert, merge, split, and secure your PDF files without ever uploading them to a server.",
+    "origin": {
+      "title": "Why we built this",
+      "p1": "We were tired of every \"free\" online PDF tool asking us to sign up, watching us with ads, or worse — uploading our documents to who-knows-where.",
+      "p2": "So we built the one we always wanted: powerful, private, and actually free. {brand} runs entirely in your browser. No sign-ups. No uploads. No tracking. Just PDFs, done right."
+    },
     "mission": {
       "title": "Our Mission",
       "p1": "We believe that everyone should have access to powerful PDF tools without compromising their privacy or paying expensive subscription fees. That's why we created {brand} – a comprehensive PDF toolkit that puts your privacy first.",
@@ -402,6 +415,21 @@
       "button": "View FAQ"
     }
   },
+  "notFound": {
+    "emoji": "📄",
+    "code": "404",
+    "title": "This page took a wrong turn",
+    "description": "But while you're here — maybe try one of our most-used tools?",
+    "cta": "Back to home",
+    "popularToolsHeading": "Popular tools",
+    "tools": {
+      "mergePdf": "Merge PDF",
+      "splitPdf": "Split PDF",
+      "compressPdf": "Compress PDF",
+      "pdfToJpg": "PDF to JPG",
+      "jpgToPdf": "JPG to PDF"
+    }
+  },
   "errors": {
     "pageError": "Something went wrong",
     "pageErrorDescription": "An unexpected error occurred. Please try again.",
@@ -429,10 +457,10 @@
   },
   "home": {
     "hero": {
-      "title": "Professional PDF Tools",
-      "highlight": "Professional Tools",
-      "subtitle": "Free, private, and powerful PDF processing in your browser",
-      "cta": "Get Started"
+      "title": "PDF tools that respect your",
+      "highlight": "privacy",
+      "subtitle": "90+ free tools, all running in your browser. No sign-ups, no uploads, no ads — your files never leave your device.",
+      "cta": "Browse all tools"
     },
     "features": {
       "privacy": {
