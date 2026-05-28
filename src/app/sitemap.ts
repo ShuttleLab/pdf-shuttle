@@ -10,6 +10,8 @@ import { siteConfig } from '@/config/site';
 import { locales, type Locale } from '@/lib/i18n/config';
 import { getAllTools } from '@/config/tools';
 
+export const dynamic = 'force-static';
+
 /**
  * Priority values for different page types
  */
