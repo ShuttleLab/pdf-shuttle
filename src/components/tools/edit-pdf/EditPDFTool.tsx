@@ -1,0 +1,529 @@
+'use client';
+
+import React, { useState, useCallback, useRef, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
+import { FileUploader } from '../FileUploader';
+import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/Card';
+
+export interface EditPDFToolProps {
+  className?: string;
+}
+
+/**
+ * EditPDFTool Component
+ * 
+ * Provides PDF editing capabilities using PDF.js viewer with annotation support.
+ * Users can add text, draw, highlight, and add images to PDFs.
+ * The PDF.js viewer has built-in save functionality (export button in toolbar).
+ */
+export function EditPDFTool({ className = '' }: EditPDFToolProps) {
+  const t = useTranslations('common');
+  const tTools = useTranslations('tools.editPdf');
+  
+  const [file, setFile] = useState<File | null>(null);
+  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [isEditorReady, setIsEditorReady] = useState(false);
+  
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  const handleFilesSelected = useCallback((files: File[]) => {
+    if (files.length > 0) {
+      const selectedFile = files[0];
+      setFile(selectedFile);
+      setError(null);
+      setPdfUrl(URL.createObjectURL(selectedFile));
+    }
+  }, []);
+
+  const handleUploadError = useCallback((errorMessage: string) => {
+    setError(errorMessage);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (pdfUrl) URL.revokeObjectURL(pdfUrl);
+    };
+  }, [pdfUrl]);
+
+  const handleIframeLoad = useCallback(() => {
+    setTimeout(() => {
+      setIsEditorReady(true);
+      
+      try {
+        const iframe = iframeRef.current;
+        if (iframe?.contentDocument) {
+          const doc = iframe.contentDocument;
+
+          // 1. Hide native PDF.js download/save buttons
+          const downloadBtn = doc.getElementById('download');
+          const secondaryDownloadBtn = doc.getElementById('secondaryDownload');
+          if (downloadBtn) downloadBtn.style.display = 'none';
+          if (secondaryDownloadBtn) secondaryDownloadBtn.style.display = 'none';
+          
+          // 2. Hide save button from CustomToolbar (pdfjs-annotation-extension)
+          const customToolbar = doc.querySelector('.CustomToolbar');
+          if (customToolbar) {
+            const buttons = customToolbar.querySelectorAll('li, button');
+            buttons.forEach((btn: Element) => {
+              const text = btn.textContent?.trim();
+              if (text === '保存' || text === 'Save') {
+                (btn as HTMLElement).style.display = 'none';
+              }
+            });
+          }          // 3. Inject PDF Shuttle Enrichment Script
+          const patchScript = doc.createElement('script');
+          patchScript.textContent = `
+            (function() {
+              console.log('[PDF Shuttle Patch] Initializing annotation patches...');
+
+              let undoStack = [];
+              let redoStack = [];
+              let lastStateStr = '';
+              let isDoingUndoRedo = false;
+
+              const toolNameTranslations = {
+                'cloud': '云线',
+                'rectangle': '矩形',
+                'circle': '圆形',
+                'arrow': '箭头',
+                'freehand': '自由绘制',
+                'freeText': '文字',
+                'freeHighlight': '自由高亮',
+                'note': '注解',
+                'signature': '签名',
+                'stamp': '盖章'
+              };
+
+              const initInterval = setInterval(() => {
+                const ext = window.pdfjsAnnotationExtensionInstance;
+                if (ext) {
+                  clearInterval(initInterval);
+                  console.log('[PDF Shuttle Patch] pdfjsAnnotationExtensionInstance found! Setting up patches...');
+                  setupCloudFix();
+                  setupColorPickerAndStroke();
+                  setupUndoRedoAndAuthorPatch();
+                }
+              }, 200);
+
+              function setupCloudFix() {
+                // Ensure double-click bypasses text layer blocking to complete drawing
+                document.addEventListener('dblclick', function(e) {
+                  const ext = window.pdfjsAnnotationExtensionInstance;
+                  const activeTool = ext?.activeAnnotation?.name;
+                  if (activeTool === 'cloud') {
+                    const konvaContent = document.querySelector('.konvajs-content');
+                    if (konvaContent) {
+                      console.log('[PDF Shuttle Patch] Intercepted dblclick for cloud tool, dispatching to Konva stage.');
+                      const dblEvent = new MouseEvent('dblclick', {
+                        bubbles: true,
+                        cancelable: true,
+                        view: window,
+                        clientX: e.clientX,
+                        clientY: e.clientY
+                      });
+                      konvaContent.dispatchEvent(dblEvent);
+                    }
+                  }
+                }, true);
+
+                // Add Enter key support to elegantly complete and close polygon drawing
+                document.addEventListener('keydown', function(e) {
+                  if (e.key === 'Enter') {
+                    const ext = window.pdfjsAnnotationExtensionInstance;
+                    const activeTool = ext?.activeAnnotation?.name;
+                    if (activeTool === 'cloud') {
+                      const konvaContent = document.querySelector('.konvajs-content');
+                      if (konvaContent) {
+                        console.log('[PDF Shuttle Patch] Intercepted Enter key for cloud tool, dispatching dblclick to end drawing.');
+                        const dblEvent = new MouseEvent('dblclick', {
+                          bubbles: true,
+                          cancelable: true,
+                          view: window
+                        });
+                        konvaContent.dispatchEvent(dblEvent);
+                      }
+                    }
+                  }
+                });
+              }
+
+              function setupColorPickerAndStroke() {
+                // Inject picker for Highlight tool
+                const hlColorPicker = document.getElementById('editorHighlightColorPicker');
+                if (hlColorPicker) {
+                  if (!hlColorPicker.querySelector('.pdfshuttle-custom-hl-picker')) {
+                    const picker = document.createElement('input');
+                    picker.type = 'color';
+                    picker.className = 'pdfshuttle-custom-hl-picker';
+                    picker.style.cssText = 'width:28px; height:28px; border:2px solid #ccc; border-radius:50%; padding:0; cursor:pointer; margin-left:8px; vertical-align:middle; background:none;';
+                    
+                    picker.addEventListener('input', function(e) {
+                      const ext = window.pdfjsAnnotationExtensionInstance;
+                      const selected = ext?.selectedAnnotation;
+                      if (selected) {
+                        ext.updateAnnotationStyle(selected, { color: e.target.value });
+                      }
+                    });
+                    hlColorPicker.appendChild(picker);
+                  }
+                }
+
+                // Dynamically observe CustomAnnotationMenu popups to inject controls
+                const observer = new MutationObserver(function() {
+                  const menu = document.querySelector('.CustomAnnotationMenu');
+                  if (menu && menu.style.display !== 'none') {
+                    injectCustomMenuControls(menu);
+                  }
+                });
+
+                observer.observe(document.body, {
+                  childList: true,
+                  subtree: true,
+                  attributes: true,
+                  attributeFilter: ['style', 'class']
+                });
+              }
+
+              function injectCustomMenuControls(menu) {
+                if (menu.querySelector('.pdfshuttle-custom-controls')) return;
+
+                console.log('[PDF Shuttle Patch] CustomAnnotationMenu opened, injecting custom controls...');
+
+                const container = document.createElement('div');
+                container.className = 'pdfshuttle-custom-controls';
+                container.style.cssText = 'border-top:1px solid #ccc; margin-top:8px; padding-top:8px; font-size:12px; display:flex; flex-direction:column; gap:8px; color:var(--toolbar-fg-color, #333);';
+
+                const ext = window.pdfjsAnnotationExtensionInstance;
+                const selected = ext?.selectedAnnotation;
+                if (!selected) return;
+
+                // 1. Custom Stroke Color Picker
+                const colorRow = document.createElement('div');
+                colorRow.style.cssText = 'display:flex; align-items:center; justify-content:space-between; gap:8px;';
+                
+                const colorLabel = document.createElement('span');
+                colorLabel.textContent = '自定义描边色:';
+                
+                const colorPicker = document.createElement('input');
+                colorPicker.type = 'color';
+                colorPicker.style.cssText = 'width:50px; height:24px; border:1px solid #ccc; border-radius:4px; padding:0; cursor:pointer;';
+                colorPicker.value = selected.style?.color || '#ff0000';
+
+                colorPicker.addEventListener('change', function(e) {
+                  const curSelected = window.pdfjsAnnotationExtensionInstance?.selectedAnnotation;
+                  if (curSelected) {
+                    window.pdfjsAnnotationExtensionInstance.updateAnnotationStyle(curSelected, { color: e.target.value });
+                  }
+                });
+
+                colorRow.appendChild(colorLabel);
+                colorRow.appendChild(colorPicker);
+                container.appendChild(colorRow);
+
+                // 2. Allow stroke width of 0 by adjusting native slider min
+                const nativeSliders = menu.querySelectorAll('input[type="range"]');
+                nativeSliders.forEach(slider => {
+                  if (slider.getAttribute('min') === '1') {
+                    slider.setAttribute('min', '0');
+                    console.log('[PDF Shuttle Patch] Stroke width slider updated min to 0');
+                  }
+                });
+
+                // 3. Shape Fill support (Rectangle, Circle, Cloud)
+                const allowedFillTools = ['rectangle', 'circle', 'cloud'];
+                if (allowedFillTools.includes(selected.name)) {
+                  const fillRow = document.createElement('div');
+                  fillRow.style.cssText = 'display:flex; align-items:center; justify-content:space-between; gap:8px;';
+                  
+                  const leftPart = document.createElement('div');
+                  leftPart.style.cssText = 'display:flex; align-items:center; gap:6px;';
+                  
+                  const fillCheckbox = document.createElement('input');
+                  fillCheckbox.type = 'checkbox';
+                  fillCheckbox.id = 'pdfshuttle-fill-enabled';
+                  fillCheckbox.style.cssText = 'cursor:pointer;';
+                  fillCheckbox.checked = selected.style?.fillEnabled || false;
+                  
+                  const fillLabel = document.createElement('label');
+                  fillLabel.htmlFor = 'pdfshuttle-fill-enabled';
+                  fillLabel.textContent = '启用填充色:';
+                  fillLabel.style.cssText = 'cursor:pointer; user-select:none;';
+
+                  leftPart.appendChild(fillCheckbox);
+                  leftPart.appendChild(fillLabel);
+
+                  const fillColorPicker = document.createElement('input');
+                  fillColorPicker.type = 'color';
+                  fillColorPicker.style.cssText = 'width:50px; height:24px; border:1px solid #ccc; border-radius:4px; padding:0; cursor:pointer;';
+                  fillColorPicker.value = selected.style?.fillColor || '#ffffff';
+                  fillColorPicker.disabled = !fillCheckbox.checked;
+
+                  fillCheckbox.addEventListener('change', function(e) {
+                    fillColorPicker.disabled = !e.target.checked;
+                    const curSelected = window.pdfjsAnnotationExtensionInstance?.selectedAnnotation;
+                    if (curSelected) {
+                      window.pdfjsAnnotationExtensionInstance.updateAnnotationStyle(curSelected, {
+                        fillEnabled: e.target.checked,
+                        fillColor: fillColorPicker.value
+                      });
+                    }
+                  });
+
+                  fillColorPicker.addEventListener('change', function(e) {
+                    const curSelected = window.pdfjsAnnotationExtensionInstance?.selectedAnnotation;
+                    if (curSelected && fillCheckbox.checked) {
+                      window.pdfjsAnnotationExtensionInstance.updateAnnotationStyle(curSelected, {
+                        fillColor: e.target.value
+                      });
+                    }
+                  });
+
+                  fillRow.appendChild(leftPart);
+                  fillRow.appendChild(fillColorPicker);
+                  container.appendChild(fillRow);
+                }
+
+                const styleContainer = menu.querySelector('.styleContainer') || menu;
+                styleContainer.appendChild(container);
+              }
+
+              // D. Undo/Redo & Comment list labels auto-override
+              function getAnnotationsSnapshot() {
+                const ext = window.pdfjsAnnotationExtensionInstance;
+                if (!ext) return null;
+                const store = ext.getAnnotationStore();
+                if (!store) return null;
+                return JSON.stringify(store);
+              }
+
+              function setupUndoRedoAndAuthorPatch() {
+                // Initialize undo stack with initial state
+                const initialState = getAnnotationsSnapshot();
+                if (initialState) {
+                  undoStack.push(initialState);
+                  lastStateStr = initialState;
+                }
+
+                // Periodically check for state changes and update UI elements
+                setInterval(() => {
+                  const ext = window.pdfjsAnnotationExtensionInstance;
+                  if (!ext) return;
+
+                  // Dynamic author override for tool name labels in comments list
+                  const store = ext.getAnnotationStore();
+                  let authorUpdated = false;
+                  if (store && store.annotations) {
+                    store.annotations.forEach(ann => {
+                      const transName = toolNameTranslations[ann.name] || '标注';
+                      const targetAuthor = transName + ' (不具名用户)';
+                      if (ann.author !== targetAuthor && ann.author === '不具名用户') {
+                        ann.author = targetAuthor;
+                        authorUpdated = true;
+                      }
+                    });
+                  }
+
+                  const currentState = getAnnotationsSnapshot();
+                  if (currentState && currentState !== lastStateStr) {
+                    if (!isDoingUndoRedo) {
+                      undoStack.push(currentState);
+                      redoStack = []; // Reset redo stack on new operation
+                      updateUndoRedoButtonsState();
+                    }
+                    lastStateStr = currentState;
+                  }
+                }, 500);
+
+                // Inject Undo/Redo buttons UI
+                injectUndoRedoButtons();
+              }
+
+              function performUndo() {
+                if (undoStack.length <= 1) return;
+                isDoingUndoRedo = true;
+                const current = undoStack.pop();
+                redoStack.push(current);
+                const prev = undoStack[undoStack.length - 1];
+                loadState(prev);
+              }
+
+              function performRedo() {
+                if (redoStack.length === 0) return;
+                isDoingUndoRedo = true;
+                const next = redoStack.pop();
+                undoStack.push(next);
+                loadState(next);
+              }
+
+              function loadState(stateStr) {
+                const ext = window.pdfjsAnnotationExtensionInstance;
+                if (!ext) return;
+
+                try {
+                  const stateObj = JSON.parse(stateStr);
+                  if (typeof ext.resetPdfjsAnnotationStorage === 'function') {
+                    ext.resetPdfjsAnnotationStorage();
+                  }
+                  if (typeof ext.initAnnotations === 'function') {
+                    ext.initAnnotations(stateObj);
+                  }
+                  if (typeof ext.reDrawAnnotation === 'function') {
+                    ext.reDrawAnnotation();
+                  }
+                  lastStateStr = stateStr;
+                  updateUndoRedoButtonsState();
+                } catch (err) {
+                  console.error('[PDF Shuttle Patch] Failed to load state', err);
+                } finally {
+                  setTimeout(() => {
+                    isDoingUndoRedo = false;
+                  }, 100);
+                }
+              }
+
+              function injectUndoRedoButtons() {
+                const customToolbar = document.querySelector('.CustomToolbar');
+                if (customToolbar) {
+                  if (customToolbar.querySelector('.pdfshuttle-undo-btn')) return;
+                  const btnList = customToolbar.querySelector('ul') || customToolbar;
+
+                  const undoLi = document.createElement('li');
+                  undoLi.className = 'pdfshuttle-undo-btn';
+                  undoLi.style.cssText = 'display:inline-block; margin-right:8px;';
+
+                  const undoBtn = document.createElement('button');
+                  undoBtn.type = 'button';
+                  undoBtn.innerHTML = '<span style="margin-right:2px; font-weight:bold;">↩</span>撤销';
+                  undoBtn.className = 'toolbarButton';
+                  undoBtn.style.cssText = 'padding:4px 8px; font-size:12px; cursor:pointer; border-radius:4px; opacity:0.5; border:1px solid var(--toolbar-border-color, #ccc); background-color:var(--toolbar-bg-color, #f5f5f5); color:var(--toolbar-fg-color, #333); font-family:inherit;';
+                  undoBtn.disabled = true;
+                  undoBtn.addEventListener('click', performUndo);
+                  undoLi.appendChild(undoBtn);
+
+                  const redoLi = document.createElement('li');
+                  redoLi.className = 'pdfshuttle-redo-btn';
+                  redoLi.style.cssText = 'display:inline-block; margin-right:8px;';
+
+                  const redoBtn = document.createElement('button');
+                  redoBtn.type = 'button';
+                  redoBtn.innerHTML = '<span style="margin-right:2px; font-weight:bold;">↪</span>重做';
+                  redoBtn.className = 'toolbarButton';
+                  redoBtn.style.cssText = 'padding:4px 8px; font-size:12px; cursor:pointer; border-radius:4px; opacity:0.5; border:1px solid var(--toolbar-border-color, #ccc); background-color:var(--toolbar-bg-color, #f5f5f5); color:var(--toolbar-fg-color, #333); font-family:inherit;';
+                  redoBtn.disabled = true;
+                  redoBtn.addEventListener('click', performRedo);
+                  redoLi.appendChild(redoBtn);
+
+                  if (btnList.firstChild) {
+                    btnList.insertBefore(undoLi, btnList.firstChild);
+                    btnList.insertBefore(redoLi, undoLi.nextSibling);
+                  } else {
+                    btnList.appendChild(undoLi);
+                    btnList.appendChild(redoLi);
+                  }
+                }
+              }
+
+              function updateUndoRedoButtonsState() {
+                const undoBtn = document.querySelector('.pdfshuttle-undo-btn button');
+                const redoBtn = document.querySelector('.pdfshuttle-redo-btn button');
+                
+                if (undoBtn) {
+                  const canUndo = undoStack.length > 1;
+                  undoBtn.disabled = !canUndo;
+                  undoBtn.style.opacity = canUndo ? '1' : '0.5';
+                }
+                if (redoBtn) {
+                  const canRedo = redoStack.length > 0;
+                  redoBtn.disabled = !canRedo;
+                  redoBtn.style.opacity = canRedo ? '1' : '0.5';
+                }
+              }
+            })();
+          `;
+          doc.body.appendChild(patchScript);
+          console.log('[PDF Shuttle Patch] Enrichment script successfully injected into iframe!');
+        }
+      } catch (e) {
+        console.warn('Could not access iframe content to inject patches', e);
+      }
+    }, 1000);
+  }, []);
+
+  const handleClear = useCallback(() => {
+    if (pdfUrl) URL.revokeObjectURL(pdfUrl);
+    setFile(null);
+    setPdfUrl(null);
+    setError(null);
+    setIsEditorReady(false);
+  }, [pdfUrl]);
+
+  return (
+    <div className={`space-y-6 ${className}`.trim()}>
+      {!file && (
+        <FileUploader
+          accept={['application/pdf', '.pdf']}
+          multiple={false}
+          maxFiles={1}
+          onFilesSelected={handleFilesSelected}
+          onError={handleUploadError}
+          label={tTools('uploadLabel')}
+          description={tTools('uploadDescription')}
+        />
+      )}
+
+      {error && (
+        <div className="p-4 rounded-[var(--radius-md)] bg-red-50 border border-red-200 text-red-700" role="alert">
+          <p className="text-sm">{error}</p>
+        </div>
+      )}
+
+      {file && pdfUrl && (
+        <div className="space-y-4">
+          <Card variant="outlined" size="sm">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <svg className="w-8 h-8 text-red-500" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" />
+                  <path d="M14 2v6h6" fill="white" />
+                </svg>
+                <div>
+                  <p className="text-sm font-medium text-[hsl(var(--color-foreground))]">{file.name}</p>
+                  <p className="text-xs text-[hsl(var(--color-muted-foreground))]">
+                    {(file.size / (1024 * 1024)).toFixed(2)} MB
+                  </p>
+                </div>
+              </div>
+              <Button variant="ghost" size="sm" onClick={handleClear}>
+                {t('buttons.clear') || 'Clear'}
+              </Button>
+            </div>
+          </Card>
+
+          {/* PDF Viewer iframe */}
+          <div className="relative border border-[hsl(var(--color-border))] rounded-[var(--radius-md)] overflow-hidden bg-gray-100">
+            <iframe
+              ref={iframeRef}
+              src={`/pdfjs-annotation-viewer/web/viewer.html?file=${encodeURIComponent(pdfUrl)}`}
+              className="w-full h-[700px] border-0"
+              title="PDF Editor"
+              sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-downloads"
+              onLoad={handleIframeLoad}
+            />
+            {!isEditorReady && (
+              <div className="absolute inset-0 flex items-center justify-center bg-white/80">
+                <div className="text-center">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[hsl(var(--color-primary))] mx-auto mb-2"></div>
+                  <p className="text-sm text-[hsl(var(--color-muted-foreground))]">{t('status.loading') || 'Loading...'}</p>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default EditPDFTool;
