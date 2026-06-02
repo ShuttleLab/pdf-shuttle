@@ -21,7 +21,8 @@ export function generateStaticParams() {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 5,
+  // maximumScale: 5 is WCAG-compliant, but omitting it lets users zoom
+  // freely (best a11y). iOS input zoom is handled via font-size >= 16px.
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: '#ffffff' },
     { media: '(prefers-color-scheme: dark)', color: '#0f172a' },
