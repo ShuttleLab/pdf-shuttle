@@ -130,6 +130,10 @@ select option {
   color: hsl(var(--color-foreground));
 }
 
+input, textarea, select {
+  font-size: max(1rem, 16px);
+}
+
 /* Utility Classes using CSS Variables */
 @theme {
   /* Colors */

@@ -8,6 +8,7 @@ import { fontVariables } from '@/lib/fonts';
 import { SkipLink } from '@/components/common/SkipLink';
 import { ServiceWorkerRegister } from '@/components/sw-register';
 import { Toaster } from 'sonner';
+import { siteConfig } from '@/config/site';
 import '@/app/globals.css';
 
 export function generateStaticParams() {
@@ -71,9 +72,29 @@ export default async function LocaleLayout({
   // Get direction for the locale
   const direction = localeConfig[locale as Locale]?.direction || 'ltr';
 
+  // SoftwareApplication JSON-LD schema
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "PDF Shuttle",
+    applicationCategory: "DeveloperApplication",
+    operatingSystem: "Web",
+    description: "Free online PDF tools for merging, splitting, compressing, and converting PDF files. All processing happens in your browser for maximum privacy.",
+    url: siteConfig.url,
+    offers: [
+      { "@type": "Offer", name: "Free", price: "0", priceCurrency: "USD" },
+    ],
+  };
+
   return (
     <NextIntlClientProvider messages={messages}>
       <div lang={locale} dir={direction} className={`${fontVariables} min-h-screen bg-background text-foreground antialiased font-sans`}>
+        <head>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+          />
+        </head>
         <SkipLink targetId="main-content">Skip to main content</SkipLink>
         <ServiceWorkerRegister />
         {children}
