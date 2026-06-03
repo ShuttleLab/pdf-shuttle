@@ -116,9 +116,14 @@ export class PDFToSVGProcessor extends BasePDFProcessor {
 
             this.updateProgress(10, 'Loading PDF document...');
 
-            // Load the PDF document using legacy pdfjs
+            // Load the PDF document using legacy pdfjs.
+            // isEvalSupported: false is the Mozilla-recommended mitigation for
+            // CVE-2024-4367 (arbitrary JS execution via malicious font matrix)
+            // — the legacy v2 line we need for SVGGraphics never received the
+            // 4.2.67 patch. Disabling eval routes font rendering through the
+            // safe path at negligible perf cost.
             const arrayBuffer = await file.arrayBuffer();
-            const pdf = await pdfjs.getDocument({ data: arrayBuffer }).promise;
+            const pdf = await pdfjs.getDocument({ data: arrayBuffer, isEvalSupported: false }).promise;
             const totalPages = pdf.numPages;
 
             // Determine which pages to convert
