@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Globe, ChevronDown, Check } from 'lucide-react';
 import { type Locale, locales, localeConfig, getLocalizedPath } from '@/lib/i18n/config';
@@ -38,7 +38,6 @@ export function getLanguagePreference(): Locale | null {
 
 export const LanguageSelector: React.FC<LanguageSelectorProps> = ({ currentLocale }) => {
   const t = useTranslations('common.buttons');
-  const router = useRouter();
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [focusedIndex, setFocusedIndex] = useState<number>(-1);
@@ -108,13 +107,16 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({ currentLocal
     // Save preference to localStorage
     saveLanguagePreference(locale);
     
-    // Navigate to the new locale path
+    // Full-page navigation (NOT router.push). A soft client-side transition
+    // between locales unmounts the whole tree, which throws "Node.removeChild:
+    // not a child of this node" when the heavy PDF DOM (pdf.js canvases/workers)
+    // or a browser translation extension has mutated nodes React expects.
     const newPath = getLocalizedPath(pathname, locale);
-    router.push(newPath);
-    
+    window.location.href = newPath;
+
     setIsOpen(false);
     setFocusedIndex(-1);
-  }, [pathname, router]);
+  }, [pathname]);
 
   const handleOptionKeyDown = useCallback((event: React.KeyboardEvent, locale: Locale, index: number) => {
     switch (event.key) {
