@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useCallback, useRef } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { FileUploader } from '../FileUploader';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
@@ -51,6 +51,10 @@ const VIEWER_HTML = withBasePath('/pdfjs-viewer/viewer.html');
 export function SignPDFTool({ className = '' }: SignPDFToolProps) {
   const t = useTranslations('common');
   const tTools = useTranslations('tools');
+  const locale = useLocale();
+  // Force the embedded viewer's UI language to the site locale (see pdfjs-viewer/viewer.html).
+  const viewerLang = ({ en: 'en-US', zh: 'zh-CN' } as Record<string, string>)[locale] ?? locale;
+  const viewerSrc = `${VIEWER_HTML}?lang=${viewerLang}`;
 
   const [signState, setSignState] = useState<SignState>({
     file: null,
@@ -329,7 +333,7 @@ export function SignPDFTool({ className = '' }: SignPDFToolProps) {
             <iframe
               key={signState.file.name + signState.file.lastModified}
               ref={iframeRef}
-              src={VIEWER_HTML}
+              src={viewerSrc}
               onLoad={handleIframeLoad}
               className="w-full bg-gray-100"
               style={{ height: '600px', border: 'none' }}

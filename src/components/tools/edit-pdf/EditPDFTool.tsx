@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useCallback, useRef, useEffect } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { FileUploader } from '../FileUploader';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
@@ -20,7 +20,14 @@ export interface EditPDFToolProps {
 export function EditPDFTool({ className = '' }: EditPDFToolProps) {
   const t = useTranslations('common');
   const tTools = useTranslations('tools.editPdf');
-  
+  const locale = useLocale();
+
+  // The embedded pdf.js viewer + annotation-extension pick their UI language from
+  // navigator.language by default (so a Chinese browser shows a Chinese toolbar even
+  // on /en). We force it via ?lang= on the iframe URL (see viewer.html). pdf.js needs
+  // region-suffixed codes for en/zh; the site's other locales pass through as-is.
+  const viewerLang = ({ en: 'en-US', zh: 'zh-CN' } as Record<string, string>)[locale] ?? locale;
+
   const [file, setFile] = useState<File | null>(null);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -83,7 +90,20 @@ export function EditPDFTool({ className = '' }: EditPDFToolProps) {
               let lastStateStr = '';
               let isDoingUndoRedo = false;
 
-              const toolNameTranslations = {
+              // Site locale (interpolated at render). The annotation-extension's own
+              // toolbar follows ?lang= via navigator override; these are the few extra
+              // labels PDF Shuttle injects itself, so they must localize too.
+              const LOCALE = "${locale}";
+              const isZh = LOCALE === 'zh' || LOCALE === 'zh-TW';
+              const L = {
+                customStroke: isZh ? '自定义描边色:' : 'Custom stroke color:',
+                enableFill:   isZh ? '启用填充色:' : 'Enable fill color:',
+                annotation:   isZh ? '标注' : 'Annotation',
+                anonymous:    isZh ? '不具名用户' : 'Anonymous',
+                undo:         isZh ? '撤销' : 'Undo',
+                redo:         isZh ? '重做' : 'Redo',
+              };
+              const toolNameTranslations = isZh ? {
                 'cloud': '云线',
                 'rectangle': '矩形',
                 'circle': '圆形',
@@ -94,6 +114,17 @@ export function EditPDFTool({ className = '' }: EditPDFToolProps) {
                 'note': '注解',
                 'signature': '签名',
                 'stamp': '盖章'
+              } : {
+                'cloud': 'Cloud',
+                'rectangle': 'Rectangle',
+                'circle': 'Circle',
+                'arrow': 'Arrow',
+                'freehand': 'Freehand',
+                'freeText': 'Text',
+                'freeHighlight': 'Highlight',
+                'note': 'Note',
+                'signature': 'Signature',
+                'stamp': 'Stamp'
               };
 
               const initInterval = setInterval(() => {
@@ -204,7 +235,7 @@ export function EditPDFTool({ className = '' }: EditPDFToolProps) {
                 colorRow.style.cssText = 'display:flex; align-items:center; justify-content:space-between; gap:8px;';
                 
                 const colorLabel = document.createElement('span');
-                colorLabel.textContent = '自定义描边色:';
+                colorLabel.textContent = L.customStroke;
                 
                 const colorPicker = document.createElement('input');
                 colorPicker.type = 'color';
@@ -248,7 +279,7 @@ export function EditPDFTool({ className = '' }: EditPDFToolProps) {
                   
                   const fillLabel = document.createElement('label');
                   fillLabel.htmlFor = 'pdfshuttle-fill-enabled';
-                  fillLabel.textContent = '启用填充色:';
+                  fillLabel.textContent = L.enableFill;
                   fillLabel.style.cssText = 'cursor:pointer; user-select:none;';
 
                   leftPart.appendChild(fillCheckbox);
@@ -316,9 +347,11 @@ export function EditPDFTool({ className = '' }: EditPDFToolProps) {
                   let authorUpdated = false;
                   if (store && store.annotations) {
                     store.annotations.forEach(ann => {
-                      const transName = toolNameTranslations[ann.name] || '标注';
-                      const targetAuthor = transName + ' (不具名用户)';
-                      if (ann.author !== targetAuthor && ann.author === '不具名用户') {
+                      const transName = toolNameTranslations[ann.name] || L.annotation;
+                      const targetAuthor = transName + ' (' + L.anonymous + ')';
+                      // The extension's default author is localized ("不具名用户" / "Anonymous"),
+                      // so accept either to keep the rename working after a language switch.
+                      if (ann.author !== targetAuthor && (ann.author === '不具名用户' || ann.author === 'Anonymous')) {
                         ann.author = targetAuthor;
                         authorUpdated = true;
                       }
@@ -395,7 +428,7 @@ export function EditPDFTool({ className = '' }: EditPDFToolProps) {
 
                   const undoBtn = document.createElement('button');
                   undoBtn.type = 'button';
-                  undoBtn.innerHTML = '<span style="margin-right:2px; font-weight:bold;">↩</span>撤销';
+                  undoBtn.innerHTML = '<span style="margin-right:2px; font-weight:bold;">↩</span>' + L.undo;
                   undoBtn.className = 'toolbarButton';
                   undoBtn.style.cssText = 'padding:4px 8px; font-size:12px; cursor:pointer; border-radius:4px; opacity:0.5; border:1px solid var(--toolbar-border-color, #ccc); background-color:var(--toolbar-bg-color, #f5f5f5); color:var(--toolbar-fg-color, #333); font-family:inherit;';
                   undoBtn.disabled = true;
@@ -408,7 +441,7 @@ export function EditPDFTool({ className = '' }: EditPDFToolProps) {
 
                   const redoBtn = document.createElement('button');
                   redoBtn.type = 'button';
-                  redoBtn.innerHTML = '<span style="margin-right:2px; font-weight:bold;">↪</span>重做';
+                  redoBtn.innerHTML = '<span style="margin-right:2px; font-weight:bold;">↪</span>' + L.redo;
                   redoBtn.className = 'toolbarButton';
                   redoBtn.style.cssText = 'padding:4px 8px; font-size:12px; cursor:pointer; border-radius:4px; opacity:0.5; border:1px solid var(--toolbar-border-color, #ccc); background-color:var(--toolbar-bg-color, #f5f5f5); color:var(--toolbar-fg-color, #333); font-family:inherit;';
                   redoBtn.disabled = true;
@@ -505,7 +538,7 @@ export function EditPDFTool({ className = '' }: EditPDFToolProps) {
           <div className="relative border border-[hsl(var(--color-border))] rounded-[var(--radius-md)] overflow-hidden bg-gray-100">
             <iframe
               ref={iframeRef}
-              src={`/pdfjs-annotation-viewer/web/viewer.html?file=${encodeURIComponent(pdfUrl)}`}
+              src={`/pdfjs-annotation-viewer/web/viewer.html?file=${encodeURIComponent(pdfUrl)}&lang=${viewerLang}`}
               className="w-full h-[700px] border-0"
               title="PDF Editor"
               sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-downloads"

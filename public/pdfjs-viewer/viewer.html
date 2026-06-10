@@ -27,6 +27,28 @@ See https://github.com/adobe-type-tools/cmap-resources
     <meta name="google" content="notranslate">
     <title>PDF.js viewer</title>
 
+<!-- PDF Shuttle: force the viewer locale to match the host site (?lang=<code> on the
+     iframe URL) instead of the browser's. Classic, non-deferred script so navigator
+     is overridden before the deferred pdf.mjs / viewer.mjs modules read it. -->
+<script>
+  (function () {
+    try {
+      var lang = new URLSearchParams(window.location.search).get("lang");
+      if (!lang) return;
+      var def = function (key, val) {
+        try {
+          Object.defineProperty(navigator, key, {
+            get: function () { return val; },
+            configurable: true,
+          });
+        } catch (e) { /* getter not redefinable on this engine — ignore */ }
+      };
+      def("language", lang);
+      def("languages", Object.freeze([lang]));
+    } catch (e) { /* never block the viewer over a locale hint */ }
+  })();
+</script>
+
 <!-- This snippet is used in production (included from viewer.html) -->
 <link rel="resource" type="application/l10n" href="locale/locale.json">
 <script src="pdf.mjs" type="module"></script>
