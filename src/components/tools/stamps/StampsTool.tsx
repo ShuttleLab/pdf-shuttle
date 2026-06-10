@@ -21,7 +21,7 @@ export function StampsTool({ className = '' }: StampsToolProps) {
   const tTools = useTranslations('tools.stamps');
   const locale = useLocale();
   // Force the embedded viewer's UI language to the site locale (see viewer.html / EditPDFTool).
-  const viewerLang = ({ en: 'en-US', zh: 'zh-CN' } as Record<string, string>)[locale] ?? locale;
+  const viewerLang = ({ en: 'en-US', zh: 'zh-CN', es: 'es-ES', pt: 'pt-BR' } as Record<string, string>)[locale] ?? locale;
 
   const [stampState, setStampState] = useState<StampState>({
     file: null,

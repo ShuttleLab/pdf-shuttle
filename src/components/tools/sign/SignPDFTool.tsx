@@ -53,7 +53,7 @@ export function SignPDFTool({ className = '' }: SignPDFToolProps) {
   const tTools = useTranslations('tools');
   const locale = useLocale();
   // Force the embedded viewer's UI language to the site locale (see pdfjs-viewer/viewer.html).
-  const viewerLang = ({ en: 'en-US', zh: 'zh-CN' } as Record<string, string>)[locale] ?? locale;
+  const viewerLang = ({ en: 'en-US', zh: 'zh-CN', es: 'es-ES', pt: 'pt-BR' } as Record<string, string>)[locale] ?? locale;
   const viewerSrc = `${VIEWER_HTML}?lang=${viewerLang}`;
 
   const [signState, setSignState] = useState<SignState>({

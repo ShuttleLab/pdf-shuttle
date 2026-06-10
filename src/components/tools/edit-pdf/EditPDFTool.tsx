@@ -26,7 +26,7 @@ export function EditPDFTool({ className = '' }: EditPDFToolProps) {
   // navigator.language by default (so a Chinese browser shows a Chinese toolbar even
   // on /en). We force it via ?lang= on the iframe URL (see viewer.html). pdf.js needs
   // region-suffixed codes for en/zh; the site's other locales pass through as-is.
-  const viewerLang = ({ en: 'en-US', zh: 'zh-CN' } as Record<string, string>)[locale] ?? locale;
+  const viewerLang = ({ en: 'en-US', zh: 'zh-CN', es: 'es-ES', pt: 'pt-BR' } as Record<string, string>)[locale] ?? locale;
 
   const [file, setFile] = useState<File | null>(null);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
@@ -95,14 +95,25 @@ export function EditPDFTool({ className = '' }: EditPDFToolProps) {
               // labels PDF Shuttle injects itself, so they must localize too.
               const LOCALE = "${locale}";
               const isZh = LOCALE === 'zh' || LOCALE === 'zh-TW';
-              const L = {
-                customStroke: isZh ? '自定义描边色:' : 'Custom stroke color:',
-                enableFill:   isZh ? '启用填充色:' : 'Enable fill color:',
-                annotation:   isZh ? '标注' : 'Annotation',
-                anonymous:    isZh ? '不具名用户' : 'Anonymous',
-                undo:         isZh ? '撤销' : 'Undo',
-                redo:         isZh ? '重做' : 'Redo',
+              // The few labels PDF Shuttle injects itself (the extension's own toolbar is
+              // localized in the bundle). Keyed by site locale; falls back to English.
+              const LMAP = {
+                'en':    { customStroke: 'Custom stroke color:', enableFill: 'Enable fill color:', annotation: 'Annotation', anonymous: 'Anonymous', undo: 'Undo', redo: 'Redo' },
+                'zh':    { customStroke: '自定义描边色:', enableFill: '启用填充色:', annotation: '标注', anonymous: '不具名用户', undo: '撤销', redo: '重做' },
+                'zh-TW': { customStroke: '自訂線條色彩：', enableFill: '啟用填滿色彩：', annotation: '註解', anonymous: '匿名使用者', undo: '復原', redo: '重做' },
+                'ja':    { customStroke: '枠線の色（カスタム）:', enableFill: '塗りつぶしの色を有効化:', annotation: '注釈', anonymous: '匿名ユーザー', undo: '元に戻す', redo: 'やり直し' },
+                'ko':    { customStroke: '사용자 지정 선 색:', enableFill: '채우기 색 사용:', annotation: '주석', anonymous: '익명 사용자', undo: '실행 취소', redo: '다시 실행' },
+                'es':    { customStroke: 'Color de trazo personalizado:', enableFill: 'Activar color de relleno:', annotation: 'Anotación', anonymous: 'Anónimo', undo: 'Deshacer', redo: 'Rehacer' },
+                'fr':    { customStroke: 'Couleur de trait personnalisée :', enableFill: 'Activer la couleur de remplissage :', annotation: 'Annotation', anonymous: 'Anonyme', undo: 'Annuler', redo: 'Rétablir' },
+                'de':    { customStroke: 'Eigene Linienfarbe:', enableFill: 'Füllfarbe aktivieren:', annotation: 'Anmerkung', anonymous: 'Anonym', undo: 'Rückgängig', redo: 'Wiederholen' },
+                'pt':    { customStroke: 'Cor de traço personalizada:', enableFill: 'Ativar cor de preenchimento:', annotation: 'Anotação', anonymous: 'Anônimo', undo: 'Desfazer', redo: 'Refazer' },
+                'it':    { customStroke: 'Colore tratto personalizzato:', enableFill: 'Attiva colore di riempimento:', annotation: 'Annotazione', anonymous: 'Anonimo', undo: 'Annulla', redo: 'Ripeti' },
+                'ar':    { customStroke: 'لون الحد المخصص:', enableFill: 'تفعيل لون التعبئة:', annotation: 'تعليق توضيحي', anonymous: 'مجهول', undo: 'تراجع', redo: 'إعادة' },
+                'vi':    { customStroke: 'Màu nét tùy chỉnh:', enableFill: 'Bật màu nền:', annotation: 'Chú thích', anonymous: 'Ẩn danh', undo: 'Hoàn tác', redo: 'Làm lại' },
+                'id':    { customStroke: 'Warna garis kustom:', enableFill: 'Aktifkan warna isian:', annotation: 'Anotasi', anonymous: 'Anonim', undo: 'Urungkan', redo: 'Ulangi' },
+                'ro':    { customStroke: 'Culoare contur personalizată:', enableFill: 'Activează culoarea de umplere:', annotation: 'Adnotare', anonymous: 'Anonim', undo: 'Anulează', redo: 'Refă' },
               };
+              const L = LMAP[LOCALE] || LMAP['en'];
               const toolNameTranslations = isZh ? {
                 'cloud': '云线',
                 'rectangle': '矩形',
