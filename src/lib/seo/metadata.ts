@@ -163,7 +163,7 @@ export function generateToolMetadata(options: ToolMetadataOptions): Metadata {
   return generateBaseMetadata({
     locale,
     path,
-    title: content.title,
+    title: content.metaTitle || content.title,
     description: content.metaDescription,
     keywords: enhancedKeywords,
   });

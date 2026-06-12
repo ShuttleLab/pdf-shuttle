@@ -133,6 +133,8 @@ export interface FAQ {
  */
 export interface ToolContent {
   title: string;
+  /** Optional SEO-only <title> override. Falls back to `title` (which is also the visible H1/breadcrumb). Use when the keyword-rich search title differs from the short UI label. */
+  metaTitle?: string;
   metaDescription: string;
   keywords: string[];
   description: string;

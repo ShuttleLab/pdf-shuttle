@@ -41,7 +41,8 @@ export const toolContentEn: Record<string, ToolContent> = {
 
   'merge-pdf': {
     title: 'Merge PDF',
-    metaDescription: 'Combine multiple PDF files into one document. Free online PDF merger with drag-and-drop reordering.',
+    metaTitle: 'Merge PDF Files Online Free – Combine PDFs into One',
+    metaDescription: 'Merge PDF files online free. Combine multiple PDFs into one document with drag-and-drop reordering — no upload, processed privately in your browser.',
     keywords: ['merge pdf', 'combine pdf', 'join pdf', 'pdf merger', 'concatenate pdf'],
     description: `
       <p>Merge PDF allows you to combine multiple PDF documents into a single file quickly and easily. Whether you're consolidating reports, combining scanned documents, or assembling a presentation, this tool makes the process seamless.</p>
@@ -281,7 +282,8 @@ export const toolContentEn: Record<string, ToolContent> = {
 
   'extract-pages': {
     title: 'Extract Pages',
-    metaDescription: 'Extract specific pages from PDF files. Select and save individual pages as new documents.',
+    metaTitle: 'Extract Pages from PDF – Free PDF Page Extractor',
+    metaDescription: 'Extract pages from PDF online free. Select and save specific pages or page ranges as new PDF documents — a fast, private PDF page extractor that runs entirely in your browser.',
     keywords: ['extract pdf pages', 'save pdf pages', 'copy pdf pages', 'pdf page extractor'],
     description: `
       <p>Extract Pages allows you to select and save specific pages from a PDF document as new files. This is perfect for pulling out relevant sections, creating excerpts, or separating combined documents.</p>
@@ -1117,7 +1119,8 @@ export const toolContentEn: Record<string, ToolContent> = {
 
   'pdf-to-png': {
     title: 'PDF to PNG',
-    metaDescription: 'Convert PDF pages to PNG images. Lossless quality with transparency support.',
+    metaTitle: 'PDF to PNG – Convert PDF to PNG Images Online Free',
+    metaDescription: 'Convert PDF to PNG online free. Turn PDF pages into high-quality PNG images with transparency support — processed privately in your browser, no upload.',
     keywords: ['pdf to png', 'convert pdf to png', 'pdf image extraction', 'lossless pdf conversion'],
     description: `
       <p>PDF to PNG converts PDF document pages into high-quality PNG images with lossless compression. PNG format preserves image quality perfectly and supports transparency.</p>
@@ -1903,7 +1906,8 @@ export const toolContentEn: Record<string, ToolContent> = {
 
   'repair-pdf': {
     title: 'Repair PDF',
-    metaDescription: 'Fix corrupted PDF files. Recover and repair damaged documents.',
+    metaTitle: 'Repair PDF – Fix & Recover Corrupted PDF Files',
+    metaDescription: 'Repair PDF online free. Fix corrupted PDF files and recover damaged documents in your browser — no upload, completely private.',
     keywords: ['repair pdf', 'fix pdf', 'recover pdf', 'corrupted pdf'],
     description: `
       <p>Repair PDF attempts to fix corrupted or damaged PDF files. The tool analyzes the document structure and rebuilds it to recover as much content as possible.</p>
@@ -2490,7 +2494,8 @@ export const toolContentEn: Record<string, ToolContent> = {
 
   'validate-signature': {
     title: 'Validate Signature',
-    metaDescription: 'Verify digital signatures in PDF documents. Check certificate validity, signer information, and document integrity.',
+    metaTitle: 'Verify PDF Digital Signature – Signature Verification Tool',
+    metaDescription: 'Verify a PDF document and its digital signature online free. Check certificate validity, signer identity, and document integrity — a private PDF signature verification tool that runs in your browser.',
     keywords: ['validate pdf signature', 'verify digital signature', 'check pdf certificate', 'signature verification'],
     description: `
       <p>Validate Signature allows you to verify digital signatures in PDF documents. Check if signatures are valid, view certificate information, and confirm document integrity.</p>
