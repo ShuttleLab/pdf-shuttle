@@ -14,11 +14,22 @@ export interface FooterProps {
 // English-only labels — these are brand names + universally short descriptions
 // that work across all 14 supported locales without translation overhead.
 const SHUTTLELAB_PRODUCTS: Array<{ href: string; emoji: string; name: string }> = [
-  { href: 'https://shuttlelab.org', emoji: '🚀', name: 'Hub' },
   { href: 'https://note.shuttlelab.org', emoji: '📝', name: 'Note' },
   { href: 'https://status.shuttlelab.org', emoji: '📊', name: 'Status' },
+  { href: 'https://clipboard.shuttlelab.org', emoji: '📋', name: 'Clipboard' },
+  { href: 'https://file.shuttlelab.org', emoji: '📁', name: 'File' },
   { href: 'https://json.shuttlelab.org', emoji: '✓', name: 'JSON' },
   { href: 'https://yaml.shuttlelab.org', emoji: '⚙️', name: 'YAML' },
+  { href: 'https://msg.shuttlelab.org', emoji: '💬', name: 'Message' },
+  { href: 'https://calendar.shuttlelab.org', emoji: '📅', name: 'Calendar' },
+  { href: 'https://docx.shuttlelab.org', emoji: '📑', name: 'Docx' },
+  { href: 'https://image.shuttlelab.org', emoji: '🖼️', name: 'Image' },
+  { href: 'https://diff.shuttlelab.org', emoji: '🔀', name: 'Diff' },
+  { href: 'https://qr.shuttlelab.org', emoji: '📱', name: 'QR' },
+  { href: 'https://base64.shuttlelab.org', emoji: '🔤', name: 'Base64' },
+  { href: 'https://url.shuttlelab.org', emoji: '🔗', name: 'URL' },
+  { href: 'https://regex.shuttlelab.org', emoji: '🔣', name: 'Regex' },
+  { href: 'https://time.shuttlelab.org', emoji: '⏱️', name: 'Time' },
 ];
 
 export const Footer: React.FC<FooterProps> = ({ locale }) => {
