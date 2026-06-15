@@ -111,7 +111,6 @@ export function EditPDFTool({ className = '' }: EditPDFToolProps) {
                 'ar':    { customStroke: 'لون الحد المخصص:', enableFill: 'تفعيل لون التعبئة:', annotation: 'تعليق توضيحي', anonymous: 'مجهول', undo: 'تراجع', redo: 'إعادة' },
                 'vi':    { customStroke: 'Màu nét tùy chỉnh:', enableFill: 'Bật màu nền:', annotation: 'Chú thích', anonymous: 'Ẩn danh', undo: 'Hoàn tác', redo: 'Làm lại' },
                 'id':    { customStroke: 'Warna garis kustom:', enableFill: 'Aktifkan warna isian:', annotation: 'Anotasi', anonymous: 'Anonim', undo: 'Urungkan', redo: 'Ulangi' },
-                'ro':    { customStroke: 'Culoare contur personalizată:', enableFill: 'Activează culoarea de umplere:', annotation: 'Adnotare', anonymous: 'Anonim', undo: 'Anulează', redo: 'Refă' },
               };
               const L = LMAP[LOCALE] || LMAP['en'];
               const toolNameTranslations = isZh ? {
