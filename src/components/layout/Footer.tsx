@@ -14,6 +14,7 @@ export interface FooterProps {
 // English-only labels — these are brand names + universally short descriptions
 // that work across all 14 supported locales without translation overhead.
 const SHUTTLELAB_PRODUCTS: Array<{ href: string; emoji: string; name: string }> = [
+  { href: 'https://ppt.shuttlelab.org', emoji: '📽️', name: 'PPT' },
   { href: 'https://note.shuttlelab.org', emoji: '📝', name: 'Note' },
   { href: 'https://status.shuttlelab.org', emoji: '📊', name: 'Status' },
   { href: 'https://clipboard.shuttlelab.org', emoji: '📋', name: 'Clipboard' },
