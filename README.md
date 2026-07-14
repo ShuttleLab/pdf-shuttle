@@ -19,6 +19,8 @@
 
 </div>
 
+**🔗 Try it live: [Free browser-based PDF tools — merge, split, compress & convert](https://pdf.shuttlelab.org)** — 90+ tools that run entirely in your browser, no uploads.
+
 ## About
 
 **PDF Shuttle** is a comprehensive suite of PDF tools designed for privacy and performance. Unlike many online converters, PDF Shuttle processes your files entirely within your browser using WebAssembly technology. Your documents **never** leave your device, ensuring maximum security for your sensitive data.
