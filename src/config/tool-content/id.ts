@@ -254,6 +254,7 @@ export const toolContentId: Record<string, ToolContent> = {
 
   'crop-pdf': {
     title: 'Potong PDF',
+    metaTitle: 'Cara Potong File PDF Online Gratis – Pangkas Margin Halaman',
     metaDescription: 'Potong halaman PDF untuk menghapus margin dan area yang tidak diinginkan. Pangkas dokumen PDF dengan presisi.',
     keywords: ['potong pdf', 'pangkas pdf', 'potong margin pdf', 'ubah ukuran halaman pdf', 'pemotong pdf'],
     description: `

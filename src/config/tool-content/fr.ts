@@ -1716,6 +1716,7 @@ export const toolContentFr: Record<string, ToolContent> = {
 
   'flatten-pdf': {
     title: 'Aplatir PDF',
+    metaTitle: 'Aplatir un PDF en ligne gratuitement – Formulaires et annotations',
     metaDescription: 'Aplatissez les formulaires PDF et les annotations. Rendez le contenu non modifiable.',
     keywords: ['aplatir pdf', 'aplatir formulaires', 'aplatir annotations', 'pdf non modifiable'],
     description: `
