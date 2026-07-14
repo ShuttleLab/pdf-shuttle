@@ -3,7 +3,7 @@
 /* PDF Shuttle Design System - CSS Variables for Theming */
 :root {
   /* Primary Colors - Deep Blue/Indigo for trust and modern tech feel */
-  --color-primary: 226 71% 55%; /* #3b82f6 - slightly more vibrant */
+  --color-primary: 226 71% 51%; /* 51% (was 55%) → primary-on-tint text clears 4.5:1; also improves white-on-primary buttons */
   --color-primary-foreground: 0 0% 100%;
   --color-primary-hover: 226 71% 45%;
   
@@ -22,7 +22,8 @@
   
   /* Muted Colors */
   --color-muted: 210 40% 96%;
-  --color-muted-foreground: 215 16% 47%;
+  /* 42% (was 47%) → ≥4.5:1 on the near-white backgrounds for WCAG AA text */
+  --color-muted-foreground: 215 16% 42%;
   
   /* Card Colors */
   --color-card: 0 0% 100%;

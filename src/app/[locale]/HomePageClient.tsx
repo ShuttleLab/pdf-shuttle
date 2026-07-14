@@ -147,9 +147,9 @@ export default function HomePageClient({ locale, localizedToolContent }: HomePag
                     <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[hsl(var(--color-primary)/0.1)] mb-4 text-[hsl(var(--color-primary))]">
                       <Icon className={`h-6 w-6 ${feature.color}`} aria-hidden="true" />
                     </div>
-                    <h3 className="text-lg font-bold text-[hsl(var(--color-foreground))] mb-2">
+                    <h2 className="text-lg font-bold text-[hsl(var(--color-foreground))] mb-2">
                       {t(feature.titleKey)}
-                    </h3>
+                    </h2>
                     <p className="text-sm text-[hsl(var(--color-muted-foreground))] leading-relaxed">
                       {t(feature.descriptionKey)}
                     </p>

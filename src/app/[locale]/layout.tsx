@@ -89,12 +89,13 @@ export default async function LocaleLayout({
   return (
     <NextIntlClientProvider messages={messages}>
       <div lang={locale} dir={direction} className={`${fontVariables} min-h-screen bg-background text-foreground antialiased font-sans`}>
-        <head>
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-          />
-        </head>
+        {/* JSON-LD rendered inline (a nested <head> inside <body> is invalid HTML
+            and gets reparented by the browser, breaking hydration — React #418).
+            Google reads structured data from the body just fine. */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
         <SkipLink targetId="main-content">Skip to main content</SkipLink>
         <ServiceWorkerRegister />
         {children}

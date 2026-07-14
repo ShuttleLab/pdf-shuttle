@@ -162,7 +162,7 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({ currentLocal
         onKeyDown={handleButtonKeyDown}
         aria-expanded={isOpen}
         aria-haspopup="listbox"
-        aria-label={t('selectLanguage')}
+        aria-label={`${t('selectLanguage')} (${currentConfig.nativeName})`}
         className="flex items-center gap-1.5"
       >
         <Globe className="h-4 w-4" aria-hidden="true" />
