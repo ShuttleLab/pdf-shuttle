@@ -333,10 +333,6 @@ export class MarkdownToPDFProcessor extends BasePDFProcessor {
 
             this.updateProgress(40, 'Loading PDF engine...');
 
-            // Dynamically import jsPDF and html2canvas
-            const { jsPDF } = await import('jspdf');
-            const html2canvas = (await import('html2canvas')).default;
-
             this.updateProgress(60, 'Converting to PDF...');
 
             // Page size dimensions (in mm)
@@ -446,75 +442,58 @@ export class MarkdownToPDFProcessor extends BasePDFProcessor {
             const contentHeight = iframeDoc.body.scrollHeight;
             iframe.style.height = `${contentHeight}px`;
 
-            // Make iframe visible for html2canvas (but still off-screen)
+            // Make the iframe content laid out (still off-screen)
             iframe.style.visibility = 'visible';
 
+            const contentDiv = (iframeDoc.body.querySelector('div') || iframeDoc.body) as HTMLElement;
+            const outputFilename = generatePdfFilename(file.name);
+
             try {
-                // Get the content div inside iframe body
-                const contentDiv = iframeDoc.body.querySelector('div') || iframeDoc.body;
+                // Script-aware routing:
+                //  • Latin / Western scripts → dompdf.js (Rust/WASM) vector PDF:
+                //    selectable, searchable text and a file 1–2 orders of magnitude
+                //    smaller than the raster path.
+                //  • Complex scripts (CJK, Arabic, Hebrew, Thai, Indic, …) → the
+                //    html2canvas raster path, which renders the browser's own
+                //    shaped glyphs correctly. The vector engine ships no CJK/RTL
+                //    font and does no complex-script shaping, so those must stay
+                //    on raster to avoid a regression.
+                let pdfBlob: Blob;
+                let engine: string;
 
-                // Use html2canvas to render the content
-                const canvas = await html2canvas(contentDiv as HTMLElement, {
-                    scale: 2,
-                    useCORS: true,
-                    logging: false,
-                    backgroundColor: colors.bg,
-                    width: pxWidth,
-                    height: contentHeight,
-                    windowWidth: pxWidth,
-                });
-
-                // Create jsPDF instance
-                const pdf = new jsPDF({
-                    orientation: 'portrait',
-                    unit: 'mm',
-                    format: [width, height],
-                });
-
-                // Calculate image dimensions
-                const imgData = canvas.toDataURL('image/jpeg', 0.95);
-                const imgWidth = width;
-                const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-                // Handle multi-page PDFs
-                const pageHeight = height;
-                let heightLeft = imgHeight;
-                let position = 0;
-
-                // Add first page
-                pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
-                heightLeft -= pageHeight;
-
-                // Add additional pages if needed
-                while (heightLeft > 0) {
-                    position = position - pageHeight;
-                    pdf.addPage();
-                    pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
-                    heightLeft -= pageHeight;
+                if (canRenderAsVector(markdownContent)) {
+                    try {
+                        pdfBlob = await this.renderVector(contentDiv, mdOptions, colors);
+                        engine = 'dompdf.js';
+                    } catch (vectorError) {
+                        // Never fail the whole conversion because the vector engine
+                        // choked — fall back to the proven raster renderer.
+                        console.warn('[markdown-to-pdf] vector render failed, falling back to raster:', vectorError);
+                        pdfBlob = await this.renderRaster(contentDiv, mdOptions, colors, width, height, pxWidth, contentHeight);
+                        engine = 'html2canvas (vector-fallback)';
+                    }
+                } else {
+                    pdfBlob = await this.renderRaster(contentDiv, mdOptions, colors, width, height, pxWidth, contentHeight);
+                    engine = 'html2canvas';
                 }
-
-                // Get PDF as blob
-                const pdfBlob = pdf.output('blob');
 
                 // Cleanup
                 document.body.removeChild(iframe);
 
                 this.updateProgress(100, 'Complete!');
 
-                // Generate output filename
-                const outputFilename = generatePdfFilename(file.name);
-
                 return this.createSuccessOutput(pdfBlob, outputFilename, {
                     theme: mdOptions.theme,
                     pageSize: mdOptions.pageSize,
                     gfm: mdOptions.gfm,
+                    engine,
                 });
-            } catch (canvasError) {
+            } catch (renderError) {
                 // Cleanup on error
                 if (document.body.contains(iframe)) {
                     document.body.removeChild(iframe);
                 }
-                throw canvasError;
+                throw renderError;
             }
 
         } catch (error) {
@@ -532,6 +511,90 @@ export class MarkdownToPDFProcessor extends BasePDFProcessor {
     protected getAcceptedTypes(): string[] {
         return ['text/markdown', 'text/plain', 'text/x-markdown'];
     }
+
+    /**
+     * Vector path: render the DOM to a searchable vector PDF via dompdf.js
+     * (Rust/WASM). WASM is inlined in the JS bundle — no CDN/asset, offline-safe.
+     */
+    private async renderVector(
+        contentDiv: HTMLElement,
+        mdOptions: MarkdownToPDFOptions,
+        colors: { bg: string; color: string },
+    ): Promise<Blob> {
+        const dompdf = (await import('dompdf.js')).default;
+        return dompdf(contentDiv, {
+            format: mdOptions.pageSize, // 'a4' | 'letter' | 'legal'
+            pagination: true,           // real multi-page breaks (not image tiling)
+            compress: true,             // DEFLATE streams → smaller file
+            backgroundColor: colors.bg,
+            onProgress: (p) => {
+                if (p.stage === 'rendering' && p.currentPage && p.totalPages) {
+                    const pct = 60 + Math.round((p.currentPage / p.totalPages) * 39);
+                    this.updateProgress(Math.min(pct, 99), `Rendering page ${p.currentPage}/${p.totalPages}...`);
+                }
+            },
+        });
+    }
+
+    /**
+     * Raster fallback: render the DOM to a canvas (html2canvas) and embed it as
+     * a paginated image via jsPDF. Not searchable, but reproduces the browser's
+     * own glyph shaping — correct for every script including CJK/RTL.
+     */
+    private async renderRaster(
+        contentDiv: HTMLElement,
+        mdOptions: MarkdownToPDFOptions,
+        colors: { bg: string; color: string },
+        width: number,
+        height: number,
+        pxWidth: number,
+        contentHeight: number,
+    ): Promise<Blob> {
+        const { jsPDF } = await import('jspdf');
+        const html2canvas = (await import('html2canvas')).default;
+
+        const canvas = await html2canvas(contentDiv, {
+            scale: 2,
+            useCORS: true,
+            logging: false,
+            backgroundColor: colors.bg,
+            width: pxWidth,
+            height: contentHeight,
+            windowWidth: pxWidth,
+        });
+
+        const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: [width, height] });
+        const imgData = canvas.toDataURL('image/jpeg', 0.95);
+        const imgWidth = width;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        const pageHeight = height;
+
+        let heightLeft = imgHeight;
+        let position = 0;
+        pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+        while (heightLeft > 0) {
+            position = position - pageHeight;
+            pdf.addPage();
+            pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+        }
+        return pdf.output('blob');
+    }
+}
+
+/**
+ * Scripts the vector engine (dompdf.js) can't yet embed/shape correctly.
+ * Markdown containing any of these is rendered via the raster fallback so it
+ * stays correct: Hebrew, Arabic (+ presentation forms), Syriac, Thai,
+ * Devanagari, Hangul (Jamo + syllables), Hiragana/Katakana, CJK ideographs
+ * (+ Ext-A) and CJK compatibility.
+ */
+const COMPLEX_SCRIPT_RE = /[\u0590-\u05FF\u0600-\u06FF\u0700-\u074F\u0750-\u077F\u0900-\u097F\u0E00-\u0E7F\u1100-\u11FF\u3040-\u30FF\u3130-\u318F\u3400-\u4DBF\u4E00-\u9FFF\uA960-\uA97F\uAC00-\uD7AF\uF900-\uFAFF\uFB1D-\uFB4F\uFB50-\uFDFF\uFE70-\uFEFF]/;
+
+/** True when the markdown can be safely rendered as a searchable vector PDF. */
+function canRenderAsVector(markdown: string): boolean {
+    return !COMPLEX_SCRIPT_RE.test(markdown);
 }
 
 /**
