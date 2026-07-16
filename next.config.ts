@@ -12,6 +12,16 @@ const nextConfig: NextConfig = {
   // inherited PDFCraft lint debt (mostly no-explicit-any in WASM/PDF glue).
   eslint: { ignoreDuringBuilds: true },
 
+  // Turbopack (dev) does NOT use the webpack() config below, so the Node-only
+  // `require("canvas")` in pdfjs-dist-legacy 500s every tool route in
+  // `next dev --turbopack`. Alias it to an empty stub — it's never called in
+  // the browser. Production (webpack, below) already stubs it via IgnorePlugin.
+  turbopack: {
+    resolveAlias: {
+      canvas: './src/lib/stubs/empty.ts',
+    },
+  },
+
   // Webpack configuration for WASM modules
   webpack: (config, { isServer, webpack }) => {
     // Handle modules that use Node.js built-ins
