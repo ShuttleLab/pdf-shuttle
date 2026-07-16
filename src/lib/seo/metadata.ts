@@ -39,19 +39,32 @@ export interface ToolMetadataOptions extends BaseMetadataOptions {
 }
 
 /**
+ * Normalize a page path for URL building.
+ * Root ('' or '/') → '' (no trailing slash); otherwise ensure a single leading
+ * slash and strip any trailing slash. The site is a static export served WITHOUT
+ * trailing slashes, so canonical/hreflang URLs must match — a `/en/` canonical on
+ * a page served at `/en` splits signals and causes "Crawled - currently not
+ * indexed" (Google picked `/en`, the page declared `/en/`).
+ */
+function normalizeUrlPath(path: string): string {
+  if (!path || path === '/') return '';
+  const withLeading = path.startsWith('/') ? path : `/${path}`;
+  return withLeading.replace(/\/+$/, '');
+}
+
+/**
  * Generate the canonical URL for a page
  */
 export function getCanonicalUrl(locale: Locale, path: string = ''): string {
-  const cleanPath = path.startsWith('/') ? path : `/${path}`;
   const basePath = getBasePath().replace(/\/$/, '');
-  return `${siteConfig.url}${basePath}/${locale}${cleanPath}`;
+  return `${siteConfig.url}${basePath}/${locale}${normalizeUrlPath(path)}`;
 }
 
 /**
  * Generate alternate language URLs for hreflang tags
  */
 export function getAlternateUrls(path: string = ''): Record<string, string> {
-  const cleanPath = path.startsWith('/') ? path : `/${path}`;
+  const cleanPath = normalizeUrlPath(path);
   const alternates: Record<string, string> = {};
   const basePath = getBasePath().replace(/\/$/, '');
 
