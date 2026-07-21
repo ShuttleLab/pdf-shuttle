@@ -23,6 +23,7 @@ const SHUTTLELAB_PRODUCTS: Array<{ href: string; emoji: string; name: string }> 
   { href: 'https://yaml.shuttlelab.org', emoji: '⚙️', name: 'YAML' },
   { href: 'https://msg.shuttlelab.org', emoji: '💬', name: 'Message' },
   { href: 'https://docx.shuttlelab.org', emoji: '📑', name: 'Docx' },
+  { href: 'https://pdf2docx.shuttlelab.org', emoji: '📘', name: 'PDF2Word' },
   { href: 'https://image.shuttlelab.org', emoji: '🖼️', name: 'Image' },
   { href: 'https://diff.shuttlelab.org', emoji: '🔀', name: 'Diff' },
   { href: 'https://qr.shuttlelab.org', emoji: '📱', name: 'QR' },
