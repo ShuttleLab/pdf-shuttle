@@ -4,7 +4,7 @@ import React, { useState, useCallback, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { Search, Menu, X, Command, Github } from 'lucide-react';
+import { Search, Menu, X, Command, Github, ArrowUpRight } from 'lucide-react';
 import { type Locale } from '@/lib/i18n/config';
 import { Button } from '@/components/ui/Button';
 import { RecentFilesDropdown } from '@/components/common/RecentFilesDropdown';
@@ -217,6 +217,16 @@ export const Header: React.FC<HeaderProps> = ({ locale, showSearch = true }) => 
                 {item.label}
               </Link>
             ))}
+            {/* Sibling app: PDF → Word (external, dedicated site) */}
+            <a
+              href="https://pdf2docx.shuttlelab.org"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3 py-1.5 text-sm font-medium text-[hsl(var(--color-primary))] hover:text-[hsl(var(--color-primary-hover))] transition-colors inline-flex items-center gap-1"
+            >
+              {t('navigation.pdfToWord')}
+              <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+            </a>
           </nav>
 
           {/* Right side actions */}
@@ -373,6 +383,19 @@ export const Header: React.FC<HeaderProps> = ({ locale, showSearch = true }) => 
                   </Link>
                 </li>
               ))}
+              {/* Sibling app: PDF → Word (external) */}
+              <li>
+                <a
+                  href="https://pdf2docx.shuttlelab.org"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-4 py-3 text-base font-medium text-[hsl(var(--color-primary))] hover:bg-[hsl(var(--color-muted))] rounded-lg transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {t('navigation.pdfToWord')}
+                  <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+                </a>
+              </li>
               {/* GitHub Link in Mobile Menu */}
               <li>
                 <a

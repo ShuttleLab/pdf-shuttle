@@ -3,7 +3,7 @@
 import { useState, useMemo, useCallback, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
-import { Search, X, Filter, Star } from 'lucide-react';
+import { Search, X, Filter, Star, FileText, ArrowUpRight } from 'lucide-react';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { ToolGrid } from '@/components/tools/ToolGrid';
@@ -159,6 +159,18 @@ export default function ToolsPageClient({ locale, localizedToolContent }: ToolsP
           <div className="container mx-auto px-4">
             {/* Filter Bar */}
             <div className="flex flex-col md:flex-row items-center gap-6 mb-10 sticky top-20 z-40 py-4 px-6 rounded-2xl glass-card transition-all">
+              {/* Sibling app: PDF → Word (external, dedicated site) */}
+              <a
+                href="https://pdf2docx.shuttlelab.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full md:w-auto shrink-0 inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium bg-[hsl(var(--color-primary)/0.1)] text-[hsl(var(--color-primary))] border border-[hsl(var(--color-primary)/0.2)] hover:bg-[hsl(var(--color-primary)/0.15)] transition-colors"
+              >
+                <FileText className="h-4 w-4" aria-hidden="true" />
+                {t('common.navigation.pdfToWord')}
+                <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+              </a>
+
               {/* Mobile Filter Toggle */}
               <Button
                 variant="outline"
