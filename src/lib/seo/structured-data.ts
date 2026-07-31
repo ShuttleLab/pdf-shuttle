@@ -271,7 +271,6 @@ export function generateWebPageSchema(
     ar: 'ar-AR',
     it: 'it-IT',
     id: 'id-ID',
-    vi: 'vi-VN',
   };
 
   return {

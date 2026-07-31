@@ -13,6 +13,26 @@ import { getAllTools } from '@/config/tools';
 export const dynamic = 'force-static';
 
 /**
+ * Core tool slugs — only these appear in sitemap.
+ * Slim sitemap signals quality over quantity and avoids
+ * the "template-site" perception from 90×13 near-identical tool pages.
+ */
+const CORE_TOOL_SLUGS = new Set([
+  'merge-pdf',
+  'split-pdf',
+  'compress-pdf',
+  'edit-pdf',
+  'pdf-to-docx',
+  'pdf-to-jpg',
+  'jpg-to-pdf',
+  'ocr-pdf',
+  'sign-pdf',
+  'encrypt-pdf',
+  'extract-pages',
+  'pdf-to-excel',
+]);
+
+/**
  * Priority values for different page types
  */
 const PRIORITY = {
@@ -60,8 +80,8 @@ function generateLocaleEntries(locale: Locale, lastModified: Date): MetadataRout
     });
   }
   
-  // Add tool pages
-  const tools = getAllTools();
+  // Add core tool pages only (not the full 90-tool catalogue)
+  const tools = getAllTools().filter((t) => CORE_TOOL_SLUGS.has(t.slug));
   for (const tool of tools) {
     entries.push({
       url: `${siteConfig.url}/${locale}/tools/${tool.slug}`,
