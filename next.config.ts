@@ -6,6 +6,11 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 const nextConfig: NextConfig = {
   output: "export",
   images: { unoptimized: true },
+  // Canonical URLs carry a trailing slash (e.g. /en/, /en/tools/merge-pdf/).
+  // The static export then emits `<route>/index.html` so hosters serve the
+  // slash version directly (200) instead of 307-redirecting to the
+  // no-slash variant, which Google refuses to index / pass equity to.
+  trailingSlash: true,
 
   // Lint is run separately via `npm run lint` (ESLint flat config).
   // The build's job is compile + type-check; don't fail it on the

@@ -65,7 +65,8 @@ const STATIC_PAGES = [
 ];
 
 /**
- * Generate sitemap entries for a specific locale
+ * Generate sitemap entries for a specific locale.
+ * All URLs carry a trailing slash to match the site canonical form (/en/).
  */
 function generateLocaleEntries(locale: Locale, lastModified: Date): MetadataRoute.Sitemap {
   const entries: MetadataRoute.Sitemap = [];
@@ -73,7 +74,7 @@ function generateLocaleEntries(locale: Locale, lastModified: Date): MetadataRout
   // Add static pages
   for (const page of STATIC_PAGES) {
     entries.push({
-      url: `${siteConfig.url}/${locale}${page.path}`,
+      url: `${siteConfig.url}/${locale}${page.path}/`,
       lastModified,
       changeFrequency: page.changeFrequency as 'daily' | 'weekly' | 'monthly',
       priority: page.priority,
@@ -84,7 +85,7 @@ function generateLocaleEntries(locale: Locale, lastModified: Date): MetadataRout
   const tools = getAllTools().filter((t) => CORE_TOOL_SLUGS.has(t.slug));
   for (const tool of tools) {
     entries.push({
-      url: `${siteConfig.url}/${locale}/tools/${tool.slug}`,
+      url: `${siteConfig.url}/${locale}/tools/${tool.slug}/`,
       lastModified,
       changeFrequency: CHANGE_FREQUENCY.toolPage,
       priority: PRIORITY.toolPage,

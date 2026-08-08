@@ -40,16 +40,15 @@ export interface ToolMetadataOptions extends BaseMetadataOptions {
 
 /**
  * Normalize a page path for URL building.
- * Root ('' or '/') → '' (no trailing slash); otherwise ensure a single leading
- * slash and strip any trailing slash. The site is a static export served WITHOUT
- * trailing slashes, so canonical/hreflang URLs must match — a `/en/` canonical on
- * a page served at `/en` splits signals and causes "Crawled - currently not
- * indexed" (Google picked `/en`, the page declared `/en/`).
+ * Every canonical/hreflang URL ends in a trailing slash (/en/, /en/tools/…) to
+ * match the exported routing (trailingSlash: true). A slashless URL on
+ * Cloudflare static hosting 307-redirects and splits signals, causing
+ * "Crawled - currently not indexed".
  */
 function normalizeUrlPath(path: string): string {
-  if (!path || path === '/') return '';
+  if (!path || path === '/') return '/';
   const withLeading = path.startsWith('/') ? path : `/${path}`;
-  return withLeading.replace(/\/+$/, '');
+  return withLeading.replace(/\/+$/, '') + '/';
 }
 
 /**

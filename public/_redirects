@@ -1,2 +1,2 @@
-# Edge-level 308 redirect for root → /en (real HTTP redirect, no JS needed)
-/ /en 308
+# Edge-level 308 redirect for root → /en/ (real HTTP redirect, no JS needed)
+/ /en/ 308
