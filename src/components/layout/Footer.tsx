@@ -33,6 +33,7 @@ const SHUTTLELAB_PRODUCTS: Array<{ href: string; emoji: string; name: string }> 
   { href: 'https://time.shuttlelab.org', emoji: '⏱️', name: 'Time' },
   { href: 'https://smsforwarder.shuttlelab.org', emoji: '📩', name: 'SMS Forwarder' },
   { href: 'https://netpulse.shuttlelab.org', emoji: '📡', name: 'NetPulse' },
+  { href: 'https://secretary.shuttlelab.org', emoji: '🗂️', name: 'Secretary' },
 ];
 
 export const Footer: React.FC<FooterProps> = ({ locale }) => {
